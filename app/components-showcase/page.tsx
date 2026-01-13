@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Search } from '@/components/ui/Search';
@@ -142,7 +142,7 @@ export default function ComponentsShowcase() {
               <div>
                 <h3 className="text-sm font-medium mb-4 text-grey">Variants</h3>
                 <div className="flex flex-wrap gap-3">
-                  <Button variant="primary">Primary</Button>
+                  <Button variant="default">Primary</Button>
                   <Button variant="secondary">Secondary</Button>
                   <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
@@ -153,7 +153,7 @@ export default function ComponentsShowcase() {
                 <h3 className="text-sm font-medium mb-4 text-grey">Sizes</h3>
                 <div className="flex flex-wrap items-center gap-3">
                   <Button size="sm">Small</Button>
-                  <Button size="md">Medium</Button>
+                  <Button size="default">Medium</Button>
                   <Button size="lg">Large</Button>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function ComponentsShowcase() {
                 <div className="flex flex-wrap gap-3">
                   <Button>Normal</Button>
                   <Button disabled>Disabled</Button>
-                  <Button isLoading>Loading</Button>
+                  <Button disabled>Loading</Button>
                 </div>
               </div>
 
@@ -301,7 +301,7 @@ export default function ComponentsShowcase() {
               <div>
                 <h3 className="text-lg font-medium mb-4">Button Interactions</h3>
                 <div className="flex flex-wrap gap-3">
-                  <Button variant="primary" className="hover:scale-105 transition-transform">
+                  <Button variant="default" className="hover:scale-105 transition-transform">
                     Hover me
                   </Button>
                   <Button variant="secondary" className="active:scale-95 transition-transform">

@@ -1,4 +1,4 @@
-export * from './ui/Button';
+export * from './ui/button';
 export * from './ui/Card';
 export * from './ui/Input';
 export * from './ui/Search';

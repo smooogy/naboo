@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { Sheet, SheetHeader, SheetBody, SheetFooter } from '@/components/ui/Sheet';
-import { Button } from '@/components/ui/Button/Button';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/cn';
 
@@ -308,10 +308,10 @@ const ConfirmDialog = ({
             Cancel
           </Button>
           <Button
-            variant={confirmVariant === 'primary' ? 'primary' : 'secondary'}
+            variant={confirmVariant === 'primary' ? 'default' : 'secondary'}
             size="sm"
             onClick={() => onConfirm(reason)}
-            isLoading={isLoading}
+            disabled={isLoading}
             className={cn(isDestructive && confirmVariant === 'secondary' && 'bg-red-500 hover:bg-red-600 border-red-500 text-white')}
           >
             {confirmLabel}
@@ -753,8 +753,8 @@ export function ApprovalPreviewDrawer({
                         Deny booking
                       </Button>
                       <Button
-                        variant="primary"
-                        className="flex-1"
+                        variant="default"
+                        className="flex-1 text-white"
                         onClick={() => setConfirmDialog('approve')}
                       >
                         Approve booking

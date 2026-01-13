@@ -8,10 +8,10 @@ const config: Config = {
   ],
   theme: {
     fontWeight: {
-      normal: 400,
-      medium: 400,
-      bold: 500,
-      semibold: 550,
+      normal: '400',
+      medium: '400',
+      bold: '500',
+      semibold: '550',
     },
     extend: {
       colors: {
