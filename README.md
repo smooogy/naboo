@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Naboo Component Library
+
+A clean, component-based design system built with Next.js, TypeScript, and Tailwind CSS, extracted from Figma designs.
+
+## Project Structure
+
+```
+/naboo
+├── app/
+│   ├── layout.tsx          # Root layout
+│   ├── page.tsx            # Home page
+│   ├── components-showcase/ # Storybook-style component showcase
+│   └── globals.css         # Global styles and font definitions
+├── components/
+│   ├── ui/                 # Reusable UI components
+│   │   ├── Button/
+│   │   ├── Card/
+│   │   └── Input/
+│   └── index.ts           # Component exports
+├── tokens/                 # Design tokens
+│   ├── colors.ts
+│   ├── typography.ts
+│   ├── spacing.ts
+│   ├── shadows.ts
+│   └── index.ts
+└── lib/
+    └── cn.ts              # Utility for merging Tailwind classes
+```
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+2. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **View the component showcase:**
+   - Open [http://localhost:3000](http://localhost:3000) for the home page
+   - Open [http://localhost:3000/components-showcase](http://localhost:3000/components-showcase) for the component library
+
+## Design Tokens
+
+All design tokens are extracted from Figma and located in `/tokens`:
+
+- **Colors**: Primary, neutrals, semantic colors
+- **Typography**: Font families, sizes, weights, line heights, letter spacing
+- **Spacing**: Consistent spacing scale
+- **Shadows**: Elevation shadows
+
+## Components
+
+### Button
+```tsx
+import { Button } from '@/components';
+
+<Button variant="primary" size="md">Click me</Button>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variants: `primary`, `secondary`, `outline`, `ghost`
+Sizes: `sm`, `md`, `lg`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Card
+```tsx
+import { Card } from '@/components';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<Card variant="default">Content</Card>
+```
 
-## Learn More
+Variants: `default`, `elevated`, `outlined`
 
-To learn more about Next.js, take a look at the following resources:
+### Input
+```tsx
+import { Input } from '@/components';
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<Input label="Email" placeholder="Enter email" />
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Iterating on Components
 
-## Deploy on Vercel
+1. **Edit components** in `/components/ui/[ComponentName]/`
+2. **View changes** in real-time at `/components-showcase`
+3. **Update tokens** in `/tokens/` as needed
+4. **Use components** in your app pages once finalized
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design System Colors
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Primary**: `#2d7255` (Green)
+- **Black**: `#212724`
+- **White**: `#ffffff`
+- **Grey**: `#737876`
+- **Border**: `#e0e0e0`
+
+## Typography
+
+- **Sans**: TWK Lausanne (400, 500, 550)
+- **Display**: TT Hoves Pro Trial Variable (545)
+
+## Next Steps
+
+1. Add more components based on Figma designs
+2. Iterate on component styles in the showcase
+3. Use components in your application pages
+4. Build out the full design system
+
+
+
