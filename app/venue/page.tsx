@@ -22,17 +22,20 @@ import {
   UserIcon,
   Folder02Icon,
   Logout03Icon,
-  Menu01Icon
+  Menu01Icon,
+  PaintBoardIcon,
+  Image01Icon
 } from '@hugeicons/core-free-icons';
+import { ColorPaletteExplorer, useColorPaletteSettings } from '@/components/ColorPaletteExplorer';
 
 // Image assets
-const imgLogo = "/assets/66c58706ea459819ac285f4024d05bd6cecfb0b9.svg";
+const imgLogo = "/assets/logo-v2.svg";
 
 
 // Sample venue data
 const venueData = {
   id: 1,
-  name: "The Mansion at Glen Cove",
+  name: "The Standard, East Village",
   location: "Glen Cove (11542), États-Unis - H-B3541",
   price: 25000,
   beds: 220,
@@ -41,11 +44,10 @@ const venueData = {
   rating: 3.8,
   reviews: 1572,
   images: [
-    "/fake_data/-BfE1765823942802.webp",
-    "/fake_data/2_x31747387155525.webp",
-    "/fake_data/67ec1746325615525.webp",
-    "/fake_data/8Eqz1751896085806.webp",
-    "/fake_data/cq7_1759329005051.webp"
+    "/assets/new-venue/1.webp",
+    "/assets/new-venue/2.webp",
+    "/assets/new-venue/3.webp",
+    "/assets/new-venue/4.webp"
   ],
   description: "Wander Port Aransas Shores is a vibrant coastal haven, offering a luxurious beach retreat just a stroll from sandy shores. Indulge in the hot tub on the patio with a BBQ area and outdoor dining, perfect for unwinding. Enjoy ocean breezes from private balconies. Gather around a cozy fireplace or fire pit. Elegant interiors feature entertainment like life-size games and a",
   spaces: [
@@ -127,10 +129,14 @@ function MapboxMap({ coordinates }: { coordinates: [number, number] }) {
 }
 
 export default function VenuePage() {
+  // Load saved color palette settings on mount
+  useColorPaletteSettings();
+  
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [activeTab, setActiveTab] = useState<string>('about');
   const [isLoadingVenue, setIsLoadingVenue] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
   const aboutSectionRef = useRef<HTMLDivElement>(null);
   const spacesSectionRef = useRef<HTMLDivElement>(null);
   const roomsSectionRef = useRef<HTMLDivElement>(null);
@@ -205,10 +211,10 @@ export default function VenuePage() {
   return (
     <div className="bg-white min-h-screen" style={{ paddingBottom: '56px' }}>
       {/* Header */}
-      <header style={{ marginBottom: '56px' }}>
+      <header style={{ marginBottom: '24px' }}>
         <div className="max-w-[1920px] mx-auto px-[32px] h-[72px] flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0">
+          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0 mb-[5px]">
             <img 
               alt="Naboo logo" 
               className="block max-w-none size-full" 
@@ -252,18 +258,32 @@ export default function VenuePage() {
               >
                 {/* User Name */}
                 <div className="px-4 py-4 border-b border-border">
-                  <p className="font-['TWK_Lausanne'] text-[16px] font-bold text-black">Maxime Beneteau</p>
+                  <p className="font-sans text-[16px] font-bold text-black">Maxime Beneteau</p>
                 </div>
 
                 {/* Menu Items */}
                 <div className="py-2">
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={UserIcon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Account</span>
+                    <span className="font-sans text-[15px] text-black">Account</span>
                   </button>
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={Folder02Icon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Projects</span>
+                    <span className="font-sans text-[15px] text-black">Projects</span>
+                  </button>
+                  <button 
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={() => {
+                      setIsColorPaletteOpen(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors cursor-pointer"
+                  >
+                    <HugeiconsIcon icon={PaintBoardIcon} size={20} color="#212724" strokeWidth={1.5} />
+                    <span className="font-sans text-[15px] text-black">Color & Font</span>
                   </button>
                 </div>
 
@@ -274,7 +294,7 @@ export default function VenuePage() {
                 <div className="py-2 pb-3">
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={Logout03Icon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Log out</span>
+                    <span className="font-sans text-[15px] text-black">Log out</span>
                   </button>
                 </div>
               </div>
@@ -283,10 +303,16 @@ export default function VenuePage() {
         </div>
       </header>
 
+      {/* Color Palette Explorer */}
+      <ColorPaletteExplorer 
+        isOpen={isColorPaletteOpen} 
+        onClose={() => setIsColorPaletteOpen(false)} 
+      />
+
       {/* Sticky Navigation Bar */}
       {showStickyNav && (
         <div className="fixed top-0 left-0 right-0 bg-white border-b border-border z-50 h-[72px]">
-          <div className="max-w-[1576px] mx-auto px-12 h-full flex items-center">
+          <div className="max-w-[1280px] mx-auto px-12 h-full flex items-center">
             <nav className="flex gap-[32px] items-center">
               <a 
                 ref={(el) => { navRefs.current['about'] = el; }}
@@ -301,12 +327,11 @@ export default function VenuePage() {
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                   }
                 }}
-                className={`font-['TWK_Lausanne'] text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
+                className={`font-sans text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
                   activeTab === 'about' 
-                    ? 'text-black' 
-                    : 'text-grey hover:text-black'
+                    ? 'text-black font-bold' 
+                    : 'text-grey hover:text-black font-medium'
                 }`}
-                style={{ fontWeight: activeTab === 'about' ? 500 : 400 }}
               >
                 About
               </a>
@@ -323,12 +348,11 @@ export default function VenuePage() {
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                   }
                 }}
-                className={`font-['TWK_Lausanne'] text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
+                className={`font-sans text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
                   activeTab === 'spaces' 
-                    ? 'text-black' 
-                    : 'text-grey hover:text-black'
+                    ? 'text-black font-bold' 
+                    : 'text-grey hover:text-black font-medium'
                 }`}
-                style={{ fontWeight: activeTab === 'spaces' ? 500 : 400 }}
               >
                 Spaces
               </a>
@@ -345,12 +369,11 @@ export default function VenuePage() {
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                   }
                 }}
-                className={`font-['TWK_Lausanne'] text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
+                className={`font-sans text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
                   activeTab === 'rooms' 
-                    ? 'text-black' 
-                    : 'text-grey hover:text-black'
+                    ? 'text-black font-bold' 
+                    : 'text-grey hover:text-black font-medium'
                 }`}
-                style={{ fontWeight: activeTab === 'rooms' ? 500 : 400 }}
               >
                 Rooms
               </a>
@@ -367,12 +390,11 @@ export default function VenuePage() {
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                   }
                 }}
-                className={`font-['TWK_Lausanne'] text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
+                className={`font-sans text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
                   activeTab === 'activities' 
-                    ? 'text-black' 
-                    : 'text-grey hover:text-black'
+                    ? 'text-black font-bold' 
+                    : 'text-grey hover:text-black font-medium'
                 }`}
-                style={{ fontWeight: activeTab === 'activities' ? 500 : 400 }}
               >
                 Available activities
               </a>
@@ -389,12 +411,11 @@ export default function VenuePage() {
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                   }
                 }}
-                className={`font-['TWK_Lausanne'] text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
+                className={`font-sans text-[15px] tracking-[-0.3px] leading-[1.2] transition-colors cursor-pointer ${
                   activeTab === 'access' 
-                    ? 'text-black' 
-                    : 'text-grey hover:text-black'
+                    ? 'text-black font-bold' 
+                    : 'text-grey hover:text-black font-medium'
                 }`}
-                style={{ fontWeight: activeTab === 'access' ? 500 : 400 }}
               >
                 Access
               </a>
@@ -406,100 +427,52 @@ export default function VenuePage() {
       {/* Main Content */}
       <div className="w-full relative">
         {/* Content wrapper */}
-        <div className="relative max-w-[1576px] mx-auto px-12 py-0">
-          {/* Venue Info Section - Above Mosaic */}
-          <div className="flex flex-col gap-[44px] items-end pt-0 pb-0">
-            <div className="flex flex-col gap-[32px] items-start w-full">
-              {/* Venue Header with Stats and Rating */}
-              <div className="flex items-end w-full">
-                {isLoadingVenue ? (
-                  <div className="flex flex-col gap-[16px] items-start">
-                    {/* Location skeleton */}
-                    <div className="h-[18px] w-[200px] rounded bg-black/10 animate-pulse-fast" />
-                    {/* Venue Name skeleton */}
-                    <div className="h-[52px] w-[450px] rounded bg-black/10 animate-pulse-fast" />
-                    {/* Stats skeleton */}
-                    <div className="flex gap-[16px] items-start">
-                      <div className="h-[18px] w-[100px] rounded bg-black/10 animate-pulse-fast" />
-                      <div className="h-[18px] w-[120px] rounded bg-black/10 animate-pulse-fast" />
-                      <div className="h-[18px] w-[80px] rounded bg-black/10 animate-pulse-fast" />
-                      <div className="h-[18px] w-[120px] rounded bg-black/10 animate-pulse-fast" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-[16px] items-start">
-                    {/* Location */}
-                    <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-grey tracking-[-0.3px] leading-none">
-                      {venueData.location}
-                    </p>
-                    {/* Venue Name */}
-                    <p className="font-['TWK_Lausanne'] font-normal text-[44px] text-black tracking-[-0.88px] leading-none">
-                      {venueData.name}
-                    </p>
-                    {/* Stats */}
-                    <div className="flex gap-[16px] items-start">
-                      <div className="flex gap-[4px] items-center">
-                        <HugeiconsIcon icon={UserMultiple02Icon} size={16} color="#212724" strokeWidth={1.5} />
-                        <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
-                          {venueData.capacity} guests
-                        </p>
-                      </div>
-                      <div className="flex gap-[4px] items-center">
-                        <HugeiconsIcon icon={BedDoubleIcon} size={16} color="#212724" strokeWidth={1.5} />
-                        <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
-                          {venueData.bedrooms} bedrooms
-                        </p>
-                      </div>
-                      <div className="flex gap-[4px] items-center">
-                        <HugeiconsIcon icon={BedSingle01Icon} size={16} color="#212724" strokeWidth={1.5} />
-                        <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
-                          {venueData.beds} beds
-                        </p>
-                      </div>
-                      {/* Rating */}
-                      <div className="flex gap-[4px] items-center">
-                        <HugeiconsIcon icon={StarIcon} size={16} color="#212724" strokeWidth={1.5} />
-                        <div className="flex gap-[2px] items-center">
-                          <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-black tracking-[-0.3px] leading-[1.2]">
-                            {venueData.rating}
-                          </p>
-                          <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-grey tracking-[-0.3px] leading-[1.2]">
-                            ({venueData.reviews} Reviews)
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              {/* Image Mosaic Grid */}
-              {isLoadingVenue ? (
-                <div className="flex gap-[8px] items-start w-full">
-                  {/* Main large image skeleton */}
-                  <div className="rounded-bl-[8px] rounded-tl-[8px] shrink-0 w-[755px] h-[420px] bg-black/10 animate-pulse-fast" />
-                  {/* Right column skeleton */}
-                  <div className="basis-0 flex flex-col gap-[8px] grow items-start min-h-px min-w-px relative shrink-0">
-                    {/* Top row skeleton */}
-                    <div className="flex gap-[8px] h-[206px] items-center relative shrink-0 w-full">
-                      <div className="basis-0 grow h-full rounded bg-black/10 animate-pulse-fast" />
-                      <div className="basis-0 grow h-full rounded-tr-[8px] bg-black/10 animate-pulse-fast" />
-                    </div>
-                    {/* Bottom row skeleton */}
-                    <div className="flex gap-[8px] h-[206px] items-center relative shrink-0 w-full">
-                      <div className="basis-0 grow h-full rounded bg-black/10 animate-pulse-fast" />
-                      <div className="basis-0 grow h-full rounded-br-[8px] bg-black/10 animate-pulse-fast" />
-                    </div>
+        <div className="relative max-w-[1280px] mx-auto px-12 py-0">
+          <div className="flex flex-col gap-[32px] items-start w-full">
+            {/* Image Mosaic Grid - Now First */}
+            {isLoadingVenue ? (
+              <div className="flex gap-[8px] items-start w-full h-[450px]">
+                {/* Main large image skeleton - 60% */}
+                <div className="rounded-bl-[8px] rounded-tl-[8px] w-[60%] h-full bg-black/10 animate-pulse-fast" />
+                {/* Right column skeleton - 40% */}
+                <div className="flex flex-col gap-[8px] w-[40%] h-full">
+                  {/* Top image skeleton */}
+                  <div className="rounded-tr-[8px] h-[221px] bg-black/10 animate-pulse-fast" />
+                  {/* Bottom row skeleton */}
+                  <div className="flex gap-[8px] h-[221px]">
+                    <div className="basis-0 grow h-full rounded bg-black/10 animate-pulse-fast" />
+                    <div className="basis-0 grow h-full rounded-br-[8px] bg-black/10 animate-pulse-fast" />
                   </div>
                 </div>
-              ) : (
-                <div className="flex gap-[8px] items-start w-full">
-                  {/* Main large image on the left */}
-                  <div className="relative rounded-bl-[8px] rounded-tl-[8px] self-stretch shrink-0 w-[755px] h-[420px] overflow-hidden group cursor-pointer">
+              </div>
+            ) : (
+              <div className="flex gap-[8px] items-start w-full h-[450px]">
+                {/* Main large image on the left - 60% */}
+                <div className="relative rounded-bl-[8px] rounded-tl-[8px] w-[60%] h-full overflow-hidden group cursor-pointer">
+                  <img 
+                    alt={venueData.name} 
+                    className="absolute inset-0 max-w-none object-cover object-center pointer-events-none rounded-bl-[8px] rounded-tl-[8px] size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
+                    src={venueData.images[0]}
+                    onError={(e) => { 
+                      const target = e.currentTarget;
+                      if (!target.dataset.fallbackUsed) {
+                        target.dataset.fallbackUsed = 'true';
+                        target.src = '/fake_data/-BfE1765823942802.webp';
+                      } else {
+                        target.style.display = 'none';
+                      }
+                    }}
+                  />
+                </div>
+                
+                {/* Right column: 1 image on top, 2 images below - 40% */}
+                <div className="flex flex-col gap-[8px] w-[40%] h-full">
+                  {/* Top single image */}
+                  <div className="relative rounded-tr-[8px] h-[221px] overflow-hidden group cursor-pointer">
                     <img 
                       alt={venueData.name} 
-                      className="absolute inset-0 max-w-none object-cover object-center pointer-events-none rounded-bl-[8px] rounded-tl-[8px] size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
-                      src={venueData.images[0]}
+                      className="absolute inset-0 max-w-none object-cover object-center pointer-events-none rounded-tr-[8px] size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
+                      src={venueData.images[1] || venueData.images[0]}
                       onError={(e) => { 
                         const target = e.currentTarget;
                         if (!target.dataset.fallbackUsed) {
@@ -510,90 +483,120 @@ export default function VenuePage() {
                         }
                       }}
                     />
+                    {/* See all photos button */}
+                    <button className="absolute top-5 right-5 bg-white px-3 py-2  rounded-[4px] flex items-center gap-2 hover:bg-grey-light transition-colors shadow-sm">
+                      <HugeiconsIcon icon={Image01Icon} size={16} color="#212724" strokeWidth={1.5} />
+                      <span className="font-sans font-medium text-[14px] text-black">See all photos</span>
+                    </button>
                   </div>
                   
-                  {/* Right column with 2x2 grid */}
-                  <div className="basis-0 flex flex-col gap-[8px] grow items-start min-h-px min-w-px relative shrink-0">
-                    {/* Top row */}
-                    <div className="flex gap-[8px] h-[206px] items-center relative shrink-0 w-full">
-                      <div className="basis-0 flex grow h-full items-center justify-center min-h-px min-w-px relative shrink-0 overflow-hidden group cursor-pointer">
-                        <div className="flex-none rotate-[180deg] scale-y-[-100%] size-full">
-                          <div className="relative size-full">
-                            <img 
-                              alt={venueData.name} 
-                              className="absolute inset-0 max-w-none object-cover object-center pointer-events-none size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
-                              src={venueData.images[1] || venueData.images[0]}
-                              onError={(e) => { 
-                                const target = e.currentTarget;
-                                if (!target.dataset.fallbackUsed) {
-                                  target.dataset.fallbackUsed = 'true';
-                                  target.src = '/fake_data/-BfE1765823942802.webp';
-                                } else {
-                                  target.style.display = 'none';
-                                }
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="basis-0 grow h-full min-h-px min-w-px relative rounded-tr-[8px] shrink-0 overflow-hidden group cursor-pointer">
-                        <img 
-                          alt={venueData.name} 
-                          className="absolute inset-0 max-w-none object-cover object-center pointer-events-none rounded-tr-[8px] size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
-                          src={venueData.images[2] || venueData.images[0]}
-                          onError={(e) => { 
-                            const target = e.currentTarget;
-                            if (!target.dataset.fallbackUsed) {
-                              target.dataset.fallbackUsed = 'true';
-                              target.src = '/fake_data/-BfE1765823942802.webp';
-                            } else {
-                              target.style.display = 'none';
-                            }
-                          }}
-                        />
-                      </div>
+                  {/* Bottom row with 2 images */}
+                  <div className="flex gap-[8px] h-[221px]">
+                    <div className="relative basis-0 grow h-full overflow-hidden group cursor-pointer">
+                      <img 
+                        alt={venueData.name} 
+                        className="absolute inset-0 max-w-none object-cover object-center pointer-events-none size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
+                        src={venueData.images[2] || venueData.images[0]}
+                        onError={(e) => { 
+                          const target = e.currentTarget;
+                          if (!target.dataset.fallbackUsed) {
+                            target.dataset.fallbackUsed = 'true';
+                            target.src = '/fake_data/-BfE1765823942802.webp';
+                          } else {
+                            target.style.display = 'none';
+                          }
+                        }}
+                      />
                     </div>
-                    
-                    {/* Bottom row */}
-                    <div className="flex gap-[8px] h-[206px] items-center relative shrink-0 w-full">
-                      <div className="basis-0 flex grow h-full items-center justify-center min-h-px min-w-px relative shrink-0 overflow-hidden group cursor-pointer">
-                        <div className="flex-none rotate-[180deg] scale-y-[-100%] size-full">
-                          <div className="relative size-full">
-                            <img 
-                              alt={venueData.name} 
-                              className="absolute inset-0 max-w-none object-cover object-center pointer-events-none size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
-                              src={venueData.images[3] || venueData.images[0]}
-                              onError={(e) => { 
-                                const target = e.currentTarget;
-                                if (!target.dataset.fallbackUsed) {
-                                  target.dataset.fallbackUsed = 'true';
-                                  target.src = '/fake_data/-BfE1765823942802.webp';
-                                } else {
-                                  target.style.display = 'none';
-                                }
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="basis-0 grow h-full min-h-px min-w-px relative rounded-br-[8px] shrink-0 overflow-hidden group cursor-pointer">
-                        <img 
-                          alt={venueData.name} 
-                          className="absolute inset-0 max-w-none object-cover object-center pointer-events-none rounded-br-[8px] size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
-                          src={venueData.images[4] || venueData.images[0]}
-                          onError={(e) => { 
-                            const target = e.currentTarget;
-                            if (!target.dataset.fallbackUsed) {
-                              target.dataset.fallbackUsed = 'true';
-                              target.src = '/fake_data/-BfE1765823942802.webp';
-                            } else {
-                              target.style.display = 'none';
-                            }
-                          }}
-                        />
+                    <div className="relative basis-0 grow h-full rounded-br-[8px] overflow-hidden group cursor-pointer">
+                      <img 
+                        alt={venueData.name} 
+                        className="absolute inset-0 max-w-none object-cover object-center pointer-events-none rounded-br-[8px] size-full transition-transform duration-300 ease-in-out group-hover:scale-105" 
+                        src={venueData.images[3] || venueData.images[0]}
+                        onError={(e) => { 
+                          const target = e.currentTarget;
+                          if (!target.dataset.fallbackUsed) {
+                            target.dataset.fallbackUsed = 'true';
+                            target.src = '/fake_data/-BfE1765823942802.webp';
+                          } else {
+                            target.style.display = 'none';
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Venue Header with Stats and Rating - Now Below Mosaic */}
+            <div className="flex items-end w-full">
+              {isLoadingVenue ? (
+                <div className="flex flex-col gap-[16px] items-start w-full">
+                  {/* Location skeleton */}
+                  <div className="h-[18px] w-[200px] rounded bg-black/10 animate-pulse-fast" />
+                  {/* Venue Name skeleton */}
+                  <div className="h-[38px] w-[350px] rounded bg-black/10 animate-pulse-fast" />
+                  {/* Separator skeleton */}
+                  <div className="w-full h-px bg-black/10" />
+                  {/* Section title skeleton */}
+                  <div className="h-[18px] w-[220px] rounded bg-black/10 animate-pulse-fast" />
+                  {/* Badges skeleton */}
+                  <div className="flex gap-2 items-center">
+                    <div className="h-[32px] w-[140px] rounded-full bg-black/10 animate-pulse-fast" />
+                    <div className="h-[32px] w-[120px] rounded-full bg-black/10 animate-pulse-fast" />
+                    <div className="h-[32px] w-[100px] rounded-full bg-black/10 animate-pulse-fast" />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-[16px] items-start w-full">
+                  {/* Location */}
+                  <p className="font-sans font-normal text-[15px] text-grey tracking-[-0.3px] leading-none">
+                    {venueData.location}
+                  </p>
+                  {/* Venue Name and Rating Row */}
+                  <div className="flex items-center justify-between w-full">
+                    <h1 className="font-sans font-medium text-[32px] text-black tracking-[-0.64px] leading-none">
+                      {venueData.name}
+                    </h1>
+                    {/* Rating */}
+                    <div className="flex gap-[4px] items-center">
+                      <HugeiconsIcon icon={StarIcon} size={16} color="#212724" strokeWidth={1.5} />
+                      <div className="flex gap-[2px] items-center">
+                        <p className="font-sans font-medium text-[15px] text-black tracking-[-0.3px] leading-[1.2]">
+                          {venueData.rating}
+                        </p>
+                        <p className="font-sans font-medium text-[15px] text-grey tracking-[-0.3px] leading-[1.2]">
+                          ({venueData.reviews} Reviews)
+                        </p>
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Separator */}
+                  
+                  
+                  {/* Event capacity & accommodation */}
+                  <div className="flex flex-col gap-3 mt-2 items-start mb-4">
+                    <p className="font-sans font-medium text-[15px] text-grey tracking-[-0.3px]">
+                      Event capacity & accommodation
+                    </p>
+                    <div className="flex gap-2 items-center flex-wrap">
+                      <span className="px-3 py-1.5 bg-grey-light rounded-full font-sans font-medium text-[15px] text-black flex items-center gap-1.5">
+                        <HugeiconsIcon icon={UserMultiple02Icon} size={15} color="#212724" strokeWidth={1.5} />
+                        Up to {venueData.capacity} attendees
+                      </span>
+                      <span className="px-3 py-1.5 bg-grey-light rounded-full font-sans font-medium text-[15px] text-black flex items-center gap-1.5">
+                        <HugeiconsIcon icon={BedSingle01Icon} size={15} color="#212724" strokeWidth={1.5} />
+                        {venueData.beds} beds on site
+                      </span>
+                      <span className="px-3 py-1.5 bg-grey-light rounded-full font-sans font-medium text-[15px] text-black flex items-center gap-1.5">
+                        <HugeiconsIcon icon={BedDoubleIcon} size={15} color="#212724" strokeWidth={1.5} />
+                        {venueData.bedrooms} bedrooms
+                      </span>
+                    </div>
+                  </div>
+                  <div className="w-full h-px bg-border" />
                 </div>
               )}
             </div>
@@ -601,26 +604,26 @@ export default function VenuePage() {
         </div>
 
         {/* Content Section Below Mosaic */}
-        <div className="max-w-[1576px] mx-auto px-12 py-0" style={{ marginTop: '32px' }}>
-          <div className="flex items-start justify-between w-full gap-12">
+        <div className="max-w-[1280px] mx-auto px-12 py-0" style={{ marginTop: '32px' }}>
+          <div className="flex items-start w-full gap-8">
             {/* Left Column - Venue Details */}
-            <div className="flex flex-col gap-[32px] items-start w-full mt-4">
+            <div className="flex flex-col gap-[32px] items-start flex-1 min-w-0 mt-4">
               {/* About the venue */}
-              <div id="about" ref={aboutSectionRef} className="flex flex-col gap-[24px] items-start w-full">
-                <h2 className="font-['TWK_Lausanne'] mb-4 font-normal text-[24px] text-black leading-[24px]">
-                  Why team choose The Mansion at Glen Cove
+              <div id="about" ref={aboutSectionRef} className="flex flex-col gap-[16px] items-start w-full">
+                <h2 className="font-sans mb-4 font-normal text-[20px] text-black leading-[20px]">
+                Why this venue works for your event
                 </h2>
-                <div className="flex flex-col gap-[24px] items-start w-full">
+                <div className="flex flex-col gap-[16px] items-start w-full">
                   {/* Feature 1: Full private estate */}
                   <div className="flex items-center gap-[16px] w-full">
                     <div className="p-3 bg-grey-light rounded-[4px] flex items-center justify-center shrink-0">
                       <HugeiconsIcon icon={Building05Icon} size={24} color="#212724" strokeWidth={1.5} />
                     </div>
                     <div className="flex flex-col gap-1 items-start">
-                      <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-black leading-[18px]">
-                        Full private estate
+                      <p className="font-sans font-normal text-[15px] text-black leading-[18px]">
+                        Capacity
                       </p>
-                      <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-grey leading-[18px]">
+                      <p className="font-sans font-normal text-[15px] text-grey leading-[18px]">
                         No external guests. Your team has full access to the entire property.
                       </p>
                     </div>
@@ -632,10 +635,10 @@ export default function VenuePage() {
                       <HugeiconsIcon icon={Home11Icon} size={24} color="#212724" strokeWidth={1.5} />
                     </div>
                     <div className="flex flex-col gap-1 items-start">
-                      <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-black leading-[18px]">
-                        Sleeps 220 on site
+                      <p className="font-sans font-normal text-[15px] text-black leading-[18px]">
+                       Formats supported
                       </p>
-                      <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-grey leading-[18px]">
+                      <p className="font-sans font-normal text-[15px] text-grey leading-[18px]">
                         Most participants can stay on-site, reducing logistics and travel friction.
                       </p>
                     </div>
@@ -647,10 +650,10 @@ export default function VenuePage() {
                       <HugeiconsIcon icon={Target02Icon} size={24} color="#212724" strokeWidth={1.5} />
                     </div>
                     <div className="flex flex-col gap-1 items-start">
-                      <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-black leading-[18px]">
-                        Ideal for executive & leadership retreats
+                      <p className="font-sans font-normal text-[15px] text-black leading-[18px]">
+                        Logistic
                       </p>
-                      <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-grey leading-[18px]">
+                      <p className="font-sans font-normal text-[15px] text-grey leading-[18px]">
                         Designed for strategic offsites, workshops, and high-level team moments.
                       </p>
                     </div>
@@ -665,42 +668,43 @@ export default function VenuePage() {
               <div id="spaces" ref={spacesSectionRef} className="flex flex-col gap-[24px] items-start w-full">
                 <div className="flex items-end justify-between w-full">
                   <div className="flex flex-col">
-                    <p className="font-['TWK_Lausanne'] font-normal text-[24px] text-black leading-none tracking-[-0.48px]">
-                      The spaces (4)
+                    <p className="font-sans font-normal text-[20px] text-black leading-none tracking-[-0.4px]">
+                    Spaces & room configurations
                     </p>
-                    <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-grey leading-[1.2] tracking-[-0.32px] mt-[16px]">
+                    <p className="font-sans font-normal text-[16px] text-grey leading-[1.2] tracking-[-0.32px] mt-[16px]">
                       Maximum capacities by room configuration
                     </p>
                   </div>
                   
                 </div>
-                <div className="flex gap-[8px] items-center w-full">
+                <div className="flex gap-[8px] items-center w-full flex-wrap">
                   {venueData.spaces.map((space, index) => (
-                    <div key={index} className="bg-grey-lighter rounded-md flex flex-col h-[220px] items-start justify-between p-[20px] relative shrink-0 w-[220px]">
-                      <div className="basis-0 flex flex-col grow items-center justify-center min-h-px min-w-px relative shrink-0 w-full">
-                        <img 
-                          src={space.icon} 
-                          alt={space.name} 
-                          className="w-[96px] h-[96px]"
-                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                        />
-                      </div>
+                    <div key={index} className="bg-white border border-border rounded-md flex flex-col h-[200px] items-start justify-between p-[20px] relative flex-1 min-w-[180px] max-w-[220px]">
                       <div className="flex flex-col gap-[4px] items-start leading-[1.2]">
-                        <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-black tracking-[-0.32px] whitespace-nowrap">
+                        <p className="font-sans font-normal text-[16px] text-black tracking-[-0.32px] whitespace-nowrap">
                           {space.name}
                         </p>
                         <div className="flex items-center gap-[4px]">
                           <HugeiconsIcon icon={UserMultiple02Icon} size={16} color="#737876" strokeWidth={1.5} />
-                          <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-grey tracking-[-0.32px] whitespace-nowrap">
+                          <p className="font-sans font-normal text-[16px] text-grey tracking-[-0.32px] whitespace-nowrap">
                             {space.capacity} guests
                           </p>
                         </div>
                       </div>
+                      <div className="flex items-center justify-center w-full">
+                        <img 
+                          src={space.icon} 
+                          alt={space.name} 
+                          className="w-[96px] h-[96px]"
+                          style={{ filter: 'grayscale(100%) brightness(0.4)' }}
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
-                <button className="border border-[rgba(45,114,85,0.22)] flex h-[44px] items-center justify-center px-[16px] py-[14px] rounded-[4px] hover:bg-primary-lighter transition-colors cursor-pointer">
-                  <span className="font-['TWK_Lausanne'] text-[15px] text-primary leading-[1.2]" style={{ fontWeight: 500 }}>
+                <button className="font-sans border border-primary/20 flex h-[44px] items-center justify-center px-[16px] py-[14px] rounded-[4px] hover:opacity-70 transition-opacity cursor-pointer">
+                  <span className="font-sans font-medium text-[15px] text-black leading-[1.2]">
                     See all spaces
                   </span>
                 </button>
@@ -711,22 +715,21 @@ export default function VenuePage() {
 
               {/* The rooms section */}
               <div id="rooms" ref={roomsSectionRef} className="flex flex-col gap-[24px] items-start w-full">
-                <p className="font-['TWK_Lausanne'] font-normal text-[24px] text-black leading-none tracking-[-0.48px] whitespace-nowrap">
+                <p className="font-sans font-normal text-[20px] text-black leading-none tracking-[-0.4px] whitespace-nowrap">
                   The rooms (180)
                 </p>
-                <div className="flex gap-[8px] items-center w-full">
+                <div className="flex gap-[8px] items-center w-full flex-wrap">
                   {venueData.rooms.map((room, index) => (
-                    <div key={index} className="bg-grey-lighter rounded-md flex flex-col h-[220px] items-start justify-between p-[20px] relative shrink-0 w-[220px]">
-                       <HugeiconsIcon icon={BedDoubleIcon} size={20} color="#737876" strokeWidth={1.5} />
+                    <div key={index} className="bg-white border border-border rounded-md flex flex-col items-start justify-between p-[20px] relative flex-1 min-w-[180px] max-w-[220px] min-h-[180px]">
                       <div className="flex flex-col gap-[4px] items-start leading-[1.2]">
-                        <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-black tracking-[-0.32px] whitespace-nowrap">
+                        <p className="font-sans font-normal text-[16px] text-black tracking-[-0.32px] whitespace-nowrap">
                           {room.name} <span className="text-grey">x{room.count}</span>
                         </p>
-                        <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-grey tracking-[-0.32px] whitespace-nowrap">
+                        <p className="font-sans font-normal text-[16px] text-grey tracking-[-0.32px] whitespace-nowrap">
                           {room.beds}
                         </p>
                       </div>
-                    
+                     
                     </div>
                   ))}
                 </div>
@@ -737,16 +740,16 @@ export default function VenuePage() {
 
               {/* Available activities */}
               <div id="activities" ref={activitiesSectionRef} className="flex flex-col gap-[24px] items-start w-full">
-                <p className="font-['TWK_Lausanne'] font-normal text-[24px] text-black leading-none tracking-[-0.48px] whitespace-nowrap">
+                <p className="font-sans font-normal text-[20px] text-black leading-none tracking-[-0.4px] whitespace-nowrap">
                   Available activities
                 </p>
-              <div className="flex gap-[32px] items-start">
+              <div className="flex gap-[32px] items-start flex-wrap">
                 {venueData.activities.map((activity, index) => (
                   <div key={index} className="flex gap-[16px] items-center">
                     <div className="bg-grey-lighter flex items-center justify-center p-[12px] rounded-[4px]">
                       <HugeiconsIcon icon={activity.icon} size={24} color="#212724" strokeWidth={1.5} />
                     </div>
-                    <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-black leading-[1.2] tracking-[-0.32px] whitespace-nowrap">
+                    <p className="font-sans font-normal text-[16px] text-black leading-[1.2] tracking-[-0.32px]">
                       {activity.name}
                     </p>
                   </div>
@@ -759,7 +762,7 @@ export default function VenuePage() {
 
               {/* Access / Map */}
               <div id="access" ref={accessSectionRef} className="flex flex-col gap-4 w-full">
-                <p className="font-['TWK_Lausanne'] mb-4 font-normal text-[24px] text-black leading-none tracking-[-0.48px] whitespace-nowrap">
+                <p className="font-sans mb-4 font-normal text-[24px] text-black leading-none tracking-[-0.48px] whitespace-nowrap">
                   Access
                 </p>
                 <div className="h-[379px] w-full relative rounded-[8px] overflow-hidden">
@@ -772,10 +775,10 @@ export default function VenuePage() {
 
               {/* Similar Venues */}
               <div className="flex flex-col gap-[24px] items-start w-full">
-                <p className="font-['TWK_Lausanne'] font-normal text-[24px] text-black leading-none tracking-[-0.48px] whitespace-nowrap">
+                <p className="font-sans font-normal text-[20px] text-black leading-none tracking-[-0.4px] whitespace-nowrap">
                   Similar venues
                 </p>
-                <div className="flex gap-[12px] items-start w-full">
+                <div className="grid grid-cols-2 gap-[12px] w-full">
                   {[
                     {
                       id: 2,
@@ -826,7 +829,7 @@ export default function VenuePage() {
                       tags: ["Exclusive venue", "Modern facilities", "Workspaces included"]
                     }
                   ].map((venue) => (
-                    <div key={venue.id} className="flex-shrink-0 w-[calc((100%-24px)/3)] min-w-[280px]">
+                    <div key={venue.id}>
                       <VenueCard venue={venue} />
                     </div>
                   ))}
@@ -835,16 +838,18 @@ export default function VenuePage() {
             </div>
 
             {/* Right Column - Booking Card */}
-            <BookingCard
-              price={venueData.price}
-              pricePerPerson={45}
-              defaultStayType="Corporate retreat"
-              defaultGuests={320}
-              defaultDates="Feb 03, 2026 - Feb 21, 2026"
-              onQuoteRequest={(data) => {
-                console.log('Quote requested:', data);
-              }}
-            />
+            <div className="shrink-0 sticky top-[88px]">
+              <BookingCard
+                price={venueData.price}
+                pricePerPerson={45}
+                defaultStayType="Corporate retreat"
+                defaultGuests={320}
+                defaultDates="Feb 03, 2026 - Feb 21, 2026"
+                onQuoteRequest={(data) => {
+                  console.log('Quote requested:', data);
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

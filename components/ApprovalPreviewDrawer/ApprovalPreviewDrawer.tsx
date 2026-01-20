@@ -95,7 +95,7 @@ const fetchBookingDetails = async (eventId: string): Promise<BookingDetails> => 
       guestCount: 78,
       status: 'pending',
       venue: {
-        name: 'The Mansion at Glen Cove',
+        name: 'The Standard, East Village',
         location: 'Glen Cove, NY',
         rating: 4.8,
         reviewCount: 124,

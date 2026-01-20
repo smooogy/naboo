@@ -110,7 +110,7 @@ function ToastItem({
     success: (
       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.33 8L6.67 11.33L12.67 5.33" stroke="#2d7255" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3.33 8L6.67 11.33L12.67 5.33" stroke="#D3D676" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
     ),

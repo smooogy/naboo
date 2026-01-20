@@ -6,7 +6,8 @@ import dynamic from 'next/dynamic';
 import { Search } from '@/components/ui/Search';
 import { type Venue } from '@/components/VenueCard';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { UserIcon, Folder02Icon, Logout03Icon, Menu01Icon } from '@hugeicons/core-free-icons';
+import { UserIcon, Folder02Icon, Logout03Icon, Menu01Icon, PaintBoardIcon } from '@hugeicons/core-free-icons';
+import { ColorPaletteExplorer, useColorPaletteSettings } from '@/components/ColorPaletteExplorer';
 
 // Dynamic import for VenueResultsWithMap to reduce initial bundle size
 const VenueResultsWithMap = dynamic(
@@ -16,7 +17,7 @@ const VenueResultsWithMap = dynamic(
       <div className="flex-1 flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
-          <p className="font-['TWK_Lausanne'] text-[14px] text-grey">Loading venues...</p>
+          <p className="font-sans text-[14px] text-grey">Loading venues...</p>
         </div>
       </div>
     ),
@@ -25,7 +26,7 @@ const VenueResultsWithMap = dynamic(
 );
 
 // Image assets - now stored locally in public/assets
-const imgLogo = "/assets/66c58706ea459819ac285f4024d05bd6cecfb0b9.svg"; // Same logo as home page
+const imgLogo = "/assets/logo-v2.svg"; // Logo
 const imgFilterHorizontal = "/assets/filter-horizontal.svg";
 
 // Fake venue data with coordinates
@@ -148,7 +149,11 @@ const fakeVenues: Venue[] = [
 
 
 export default function ResultsPage() {
+  // Load saved color palette settings on mount
+  useColorPaletteSettings();
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Close menu when clicking outside
@@ -164,11 +169,17 @@ export default function ResultsPage() {
 
   return (
     <div className="bg-white min-h-screen">
+      {/* Color Palette Explorer */}
+      <ColorPaletteExplorer 
+        isOpen={isColorPaletteOpen} 
+        onClose={() => setIsColorPaletteOpen(false)} 
+      />
+
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white border-b border-border">
         <div className="px-[32px] h-[72px] flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0">
+          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0 mb-[5px]">
             <img 
               alt="Naboo logo" 
               className="block max-w-none size-full" 
@@ -196,7 +207,7 @@ export default function ResultsPage() {
               <div className="size-4 relative shrink-0">
                 <img alt="" className="block max-w-none size-full" src={imgFilterHorizontal} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               </div>
-              <span className="font-['TWK_Lausanne'] text-[15px] text-black leading-[1.2]">
+              <span className="font-sans text-[15px] text-black leading-[1.2]">
                 Filters
               </span>
             </button>
@@ -219,18 +230,32 @@ export default function ResultsPage() {
               >
                 {/* User Name */}
                 <div className="px-4 py-4 border-b border-border">
-                  <p className="font-['TWK_Lausanne'] text-[16px] font-bold text-black">Maxime Beneteau</p>
+                  <p className="font-sans text-[16px] font-bold text-black">Maxime Beneteau</p>
                 </div>
 
                 {/* Menu Items */}
                 <div className="py-2">
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={UserIcon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Account</span>
+                    <span className="font-sans text-[15px] text-black">Account</span>
                   </button>
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={Folder02Icon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Projects</span>
+                    <span className="font-sans text-[15px] text-black">Projects</span>
+                  </button>
+                  <button 
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={() => {
+                      setIsColorPaletteOpen(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors cursor-pointer"
+                  >
+                    <HugeiconsIcon icon={PaintBoardIcon} size={20} color="#212724" strokeWidth={1.5} />
+                    <span className="font-sans text-[15px] text-black">Color & Font</span>
                   </button>
                 </div>
 
@@ -241,7 +266,7 @@ export default function ResultsPage() {
                 <div className="py-2 pb-3">
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={Logout03Icon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Log out</span>
+                    <span className="font-sans text-[15px] text-black">Log out</span>
                   </button>
                 </div>
               </div>

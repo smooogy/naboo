@@ -79,7 +79,7 @@ export default function ComponentsShowcase() {
               <div>
                 <p className="text-xs text-grey mb-2">Font Families</p>
                 <div className="space-y-2">
-                  <p className="font-sans">TWK Lausanne (Sans)</p>
+                  <p className="font-sans">Google Sans</p>
                   <p className="font-display">TT Hoves Pro Trial Variable (Display)</p>
                 </div>
               </div>
@@ -98,9 +98,9 @@ export default function ComponentsShowcase() {
               <div>
                 <p className="text-xs text-grey mb-2">Font Weights</p>
                 <div className="space-y-2">
-                  <p className="font-normal">Normal (400)</p>
+                  <p className="font-normal">Normal (500)</p>
                   <p className="font-medium">Medium (500)</p>
-                  <p className="font-semibold">Semibold (550)</p>
+                  <p className="font-semibold">Semibold (600)</p>
                 </div>
               </div>
             </div>
@@ -221,23 +221,23 @@ export default function ComponentsShowcase() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-5xl font-normal mb-2">Heading 1 - 58px</h1>
-                <p className="text-grey text-sm">Font: TWK Lausanne, Weight: 400</p>
+                <p className="text-grey text-sm">Font: Google Sans, Weight: 500</p>
               </div>
               <div>
                 <h2 className="text-4xl font-normal mb-2">Heading 2 - 44px</h2>
-                <p className="text-grey text-sm">Font: TWK Lausanne, Weight: 400</p>
+                <p className="text-grey text-sm">Font: Google Sans, Weight: 500</p>
               </div>
               <div>
                 <h3 className="text-3xl font-normal mb-2">Heading 3 - 28px</h3>
-                <p className="text-grey text-sm">Font: TWK Lausanne, Weight: 400</p>
+                <p className="text-grey text-sm">Font: Google Sans, Weight: 500</p>
               </div>
               <div>
                 <p className="text-base mb-2">Body text - 15px</p>
-                <p className="text-grey text-sm">Font: TWK Lausanne, Weight: 400</p>
+                <p className="text-grey text-sm">Font: Google Sans, Weight: 500</p>
               </div>
               <div>
                 <p className="text-sm mb-2">Small text - 14px</p>
-                <p className="text-grey text-sm">Font: TWK Lausanne, Weight: 400</p>
+                <p className="text-grey text-sm">Font: Google Sans, Weight: 500</p>
               </div>
             </div>
           </Card>

@@ -89,7 +89,7 @@ import { Input } from '@/components';
 
 ## Design System Colors
 
-- **Primary**: `#2d7255` (Green)
+- **Primary**: `#D3D676` (Yellow-Green)
 - **Black**: `#212724`
 - **White**: `#ffffff`
 - **Grey**: `#737876`
@@ -97,7 +97,7 @@ import { Input } from '@/components';
 
 ## Typography
 
-- **Sans**: TWK Lausanne (400, 500, 550)
+- **Sans**: Google Sans (400-700)
 - **Display**: TT Hoves Pro Trial Variable (545)
 
 ## Next Steps

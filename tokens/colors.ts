@@ -5,12 +5,12 @@
 export const colors = {
   // Primary brand color
   primary: {
-    DEFAULT: '#2d7255',
-    light: '#3d7960',
-    lighter: '#e1ece8',
-    20: 'rgba(45,114,85,0.2)',
-    22: 'rgba(45,114,85,0.22)',
-    23: 'rgba(45,114,85,0.23)',
+    DEFAULT: '#D3D676',
+    light: '#dde08a',
+    lighter: '#f5f6e8',
+    20: 'rgba(211,214,118,0.2)',
+    22: 'rgba(211,214,118,0.22)',
+    23: 'rgba(211,214,118,0.23)',
   },
   
   // Neutral colors

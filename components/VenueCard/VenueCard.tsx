@@ -44,7 +44,7 @@ export function VenueCard({ venue, onClick }: VenueCardProps) {
     if (onClick) {
       onClick(e);
     } else {
-      window.open('/venue', '_blank');
+      window.location.href = '/venue';
     }
   };
 
@@ -156,30 +156,30 @@ export function VenueCard({ venue, onClick }: VenueCardProps) {
       <div className="flex flex-col gap-[8px] items-start w-full">
         {/* Location and title */}
         <div className="flex flex-col gap-[4px] items-start w-full">
-          <p className="text-[13px] text-grey tracking-[-0.26px] leading-[1.2]">
+          <p className="font-sans text-[13px] text-grey tracking-[-0.26px] leading-[1.2]">
             {locationText}
           </p>
-          <p className="text-[16px] text-black tracking-[-0.32px] leading-[1.2]" style={{ fontWeight: 500 }}>
+          <p className="font-sans font-medium text-[16px] text-black tracking-[-0.32px] leading-[1.2]">
             {venue.name}
           </p>
         </div>
 
         {/* Price and details */}
         <div className="flex gap-[10px] items-center justify-center">
-          <p className="text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
+          <p className="font-sans text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
             <span className="text-grey">From</span>
             {` ${venue.price}€ / personne`}
           </p>
           <div className="w-px h-4 bg-grey-light" />
           <div className="flex gap-[4px] items-center">
             <HugeiconsIcon icon={BedDoubleIcon} size={16} color="#212724" strokeWidth={1.5} />
-            <p className="text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
+            <p className="font-sans text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
               {venue.beds}
             </p>
           </div>
           <div className="flex gap-[4px] items-center">
             <HugeiconsIcon icon={UserMultiple02Icon} size={16} color="#212724" strokeWidth={1.5} />
-            <p className="text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
+            <p className="font-sans text-[15px] text-black tracking-[-0.3px] leading-[1.2] whitespace-nowrap">
               {venue.capacity}
             </p>
           </div>
@@ -192,7 +192,7 @@ export function VenueCard({ venue, onClick }: VenueCardProps) {
               key={index}
               className="bg-grey-light flex items-center justify-center px-2 py-1 rounded-[3px] shrink-0"
             >
-              <p className="font-medium text-[13px] text-grey tracking-[-0.26px] leading-[1.2] whitespace-nowrap">
+              <p className="font-sans font-medium text-[13px] text-grey tracking-[-0.26px] leading-[1.2] whitespace-nowrap">
                 {tag}
               </p>
             </div>

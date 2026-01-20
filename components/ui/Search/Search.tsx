@@ -890,7 +890,7 @@ export const Search = forwardRef<HTMLDivElement, SearchProps>(
             className={cn(
               'bg-primary flex items-center justify-center',
               'rounded shrink-0',
-              'hover:bg-primary-light',
+              'btn-hover-bg',
               'transition-all duration-200 ease-out',
               'cursor-pointer',
               !showLabels 
@@ -906,30 +906,18 @@ export const Search = forwardRef<HTMLDivElement, SearchProps>(
           >
             {isSearching ? (
               <div 
-                className="border border-white border-t-transparent rounded-full"
-                style={{
-                  width: '14px',
-                  height: '14px',
-                  borderWidth: '1.5px',
-                  animation: 'spin-smooth 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-                }}
+                className="border border-primary-foreground border-t-transparent rounded-full w-[14px] h-[14px] animate-spin"
+                style={{ borderWidth: '1.5px' }}
               />
             ) : !showLabels ? (
-              <div className="w-5 h-5 relative shrink-0">
-                <img 
-                  alt="Search" 
-                  className="block max-w-none size-full" 
-                  src={imgSearch01} 
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }} 
-                />
+              <div className="w-5 h-5 relative shrink-0 text-primary-foreground">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.3-4.3"/>
+                </svg>
               </div>
             ) : (
-              <span 
-                className="font-regular leading-[1.2] text-white text-nowrap"
-                style={{ 
-                  fontSize: '15px',
-                }}
-              >
+              <span className="font-sans font-medium leading-[1.2] text-primary-foreground text-nowrap text-[15px]">
                 Search
               </span>
             )}

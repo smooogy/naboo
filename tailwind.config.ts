@@ -8,17 +8,18 @@ const config: Config = {
   ],
   theme: {
     fontWeight: {
-      normal: '400',
-      medium: '400',
-      bold: '500',
-      semibold: '550',
+      normal: '500',
+      medium: '500',
+      bold: '600',
+      semibold: '600',
     },
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#2d7255',
-          light: '#3d7960',
-          lighter: '#e1ece8',
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)',
+          light: '#dde08a',
+          lighter: '#f5f6e8',
         },
         black: '#212724',
         white: '#ffffff',
@@ -30,6 +31,10 @@ const config: Config = {
           lighterGrey: '#F9F9F9',
         },
         border: '#e0e0e0',
+        info: {
+          DEFAULT: '#3452bd',
+          light: 'rgba(52,82,189,0.1)',
+        },
         background: {
           default: '#fdfdfd',
           secondary: '#f9f9f9',
@@ -37,7 +42,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['TWK Lausanne', 'system-ui', 'sans-serif'],
+        sans: ['Google Sans', 'system-ui', 'sans-serif'],
         display: ['TT Hoves Pro Trial Variable', 'system-ui', 'sans-serif'],
       },
       fontSize: {

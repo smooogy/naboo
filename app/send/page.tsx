@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useRive } from '@rive-app/react-canvas';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { UserMultiple02Icon, Moon02Icon, UserIcon, Folder02Icon, Logout03Icon, Menu01Icon } from '@hugeicons/core-free-icons';
+import { UserMultiple02Icon, Moon02Icon, UserIcon, Folder02Icon, Logout03Icon, Menu01Icon, PaintBoardIcon } from '@hugeicons/core-free-icons';
+import { ColorPaletteExplorer, useColorPaletteSettings } from '@/components/ColorPaletteExplorer';
 
 // Image assets
-const imgLogo = "/assets/66c58706ea459819ac285f4024d05bd6cecfb0b9.svg";
+const imgLogo = "/assets/logo-v2.svg";
 const imgImage2183 = "/assets/send-image2183.png";
 const imgLine472 = "/assets/send-line472.svg";
 const imgServingFood = "/assets/send-serving-food.svg";
@@ -43,10 +44,10 @@ function SuccessView({ onGoToProject }: { onGoToProject: () => void }) {
 
         {/* Success Message */}
         <div className="flex flex-col gap-[12px] items-center">
-          <p className="font-['TWK_Lausanne'] font-normal text-[28px] text-black tracking-[-0.28px] w-[468px]">
+          <p className="font-sans font-normal text-[28px] text-black tracking-[-0.28px] w-[468px]">
             Request sent to the venue
           </p>
-          <p className="font-['TWK_Lausanne'] font-normal text-[16px] text-grey tracking-[-0.18px] w-full">
+          <p className="font-sans font-normal text-[16px] text-grey tracking-[-0.18px] w-full">
             We're checking availability and pricing.
             <br />
             Your advisor will keep you updated.
@@ -55,30 +56,21 @@ function SuccessView({ onGoToProject }: { onGoToProject: () => void }) {
 
         {/* CTA Button */}
         <button 
-          className="bg-[#2d7255] flex h-[44px] items-center justify-center rounded-[4px] cursor-pointer hover:opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
-          style={{ width: '196px' }}
+          className="font-sans bg-primary flex h-[44px] w-[196px] items-center justify-center rounded-[4px] cursor-pointer btn-hover-bg disabled:opacity-70 disabled:cursor-not-allowed"
           onClick={handleClick}
           disabled={isNavigating}
         >
           {isNavigating ? (
-            <div 
-              className="border border-white border-t-transparent rounded-full"
-              style={{
-                width: '16px',
-                height: '16px',
-                borderWidth: '1.5px',
-                animation: 'spin-smooth 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-              }}
-            />
+            <div className="border border-primary-foreground border-t-transparent rounded-full w-4 h-4 animate-spin" style={{ borderWidth: '1.5px' }} />
           ) : (
-            <p className="font-['TWK_Lausanne'] font-medium leading-[1.2] text-[15px] text-white text-nowrap">
+            <p className="font-sans font-medium leading-[1.2] text-[15px] text-primary-foreground text-nowrap">
               Go to my project space
             </p>
           )}
         </button>
 
         {/* Small Text */}
-        <p className="font-['TWK_Lausanne'] font-normal text-[13px] text-grey text-center text-nowrap tracking-[-0.13px]">
+        <p className="font-sans font-normal text-[13px] text-grey text-center text-nowrap tracking-[-0.13px]">
           Usually confirmed within 24h
         </p>
       </div>
@@ -87,11 +79,15 @@ function SuccessView({ onGoToProject }: { onGoToProject: () => void }) {
 }
 
 export default function SendPage() {
+  // Load saved color palette settings on mount
+  useColorPaletteSettings();
+  
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [contentLoaded, setContentLoaded] = useState({
     package: false,
@@ -142,11 +138,17 @@ export default function SendPage() {
 
   return (
     <div className="bg-[#fdfdfd] min-h-screen">
+      {/* Color Palette Explorer */}
+      <ColorPaletteExplorer 
+        isOpen={isColorPaletteOpen} 
+        onClose={() => setIsColorPaletteOpen(false)} 
+      />
+
       {/* Navbar */}
       <nav className="h-[72px]">
         <div className="max-w-[1920px] mx-auto px-[32px] h-full flex items-center justify-between">
           {/* Logo */}
-          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0">
+          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0 mb-[5px]">
             <img 
               src={imgLogo} 
               alt="Naboo logo" 
@@ -172,18 +174,32 @@ export default function SendPage() {
               >
                 {/* User Name */}
                 <div className="px-4 py-4 border-b border-border">
-                  <p className="font-['TWK_Lausanne'] text-[16px] font-bold text-black">Maxime Beneteau</p>
+                  <p className="font-sans text-[16px] font-bold text-black">Maxime Beneteau</p>
                 </div>
 
                 {/* Menu Items */}
                 <div className="py-2">
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={UserIcon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Account</span>
+                    <span className="font-sans text-[15px] text-black">Account</span>
                   </button>
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={Folder02Icon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Projects</span>
+                    <span className="font-sans text-[15px] text-black">Projects</span>
+                  </button>
+                  <button 
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={() => {
+                      setIsColorPaletteOpen(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors cursor-pointer"
+                  >
+                    <HugeiconsIcon icon={PaintBoardIcon} size={20} color="#212724" strokeWidth={1.5} />
+                    <span className="font-sans text-[15px] text-black">Color & Font</span>
                   </button>
                 </div>
 
@@ -194,7 +210,7 @@ export default function SendPage() {
                 <div className="py-2 pb-3">
                   <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                     <HugeiconsIcon icon={Logout03Icon} size={20} color="#212724" strokeWidth={1.5} />
-                    <span className="font-['TWK_Lausanne'] text-[15px] text-black">Log out</span>
+                    <span className="font-sans text-[15px] text-black">Log out</span>
                   </button>
                 </div>
               </div>
@@ -211,10 +227,10 @@ export default function SendPage() {
           <div className="flex flex-col gap-[32px] items-start w-[701px]">
           {/* Header */}
           <div className="flex flex-col items-start w-full">
-            <p className="font-['TWK_Lausanne'] font-normal text-[24px] text-black tracking-[-0.24px] w-[468px]">
+            <p className="font-sans font-normal text-[24px] text-black tracking-[-0.24px] w-[468px]">
               Request availability & pricing
             </p>
-            <p className="font-['TWK_Lausanne'] font-normal text-[18px] text-grey tracking-[-0.18px] w-full">
+            <p className="font-sans font-normal text-[18px] text-grey tracking-[-0.18px] w-full">
             Send a request to venues to confirm availability and pricing before booking.
             </p>
           </div>
@@ -230,7 +246,7 @@ export default function SendPage() {
           <div className="flex flex-col gap-[16px] items-start w-full">
             {contentLoaded.package ? (
               <>
-                <p className="font-['TWK_Lausanne'] font-normal text-[15px] text-grey tracking-[-0.15px] w-full animate-fade-in">
+                <p className="font-sans font-normal text-[15px] text-grey tracking-[-0.15px] w-full animate-fade-in">
                   Recommended package
                 </p>
 
@@ -240,11 +256,11 @@ export default function SendPage() {
                 <div className="flex flex-col gap-[16px] items-start flex-1">
                   <div className="flex flex-col gap-[2px] items-start leading-[1.2] w-full">
                     
-                    <p className="font-['TWK_Lausanne'] font-normal text-[20px] text-black tracking-[-0.4px] w-full">
+                    <p className="font-sans font-normal text-[20px] text-black tracking-[-0.4px] w-full">
                       Full Board Package single
                     </p>
                     
-                    <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-grey tracking-[-0.28px] w-full">
+                    <p className="font-sans font-medium text-[15px] text-grey tracking-[-0.28px] w-full">
                       Single room · x160
                     </p>
                   </div>
@@ -255,7 +271,7 @@ export default function SendPage() {
                       <div className="relative shrink-0 size-[16px]">
                         <img alt="" className="block max-w-none size-full" src={imgServingFood} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       </div>
-                      <p className="font-['TWK_Lausanne'] font-normal leading-[1.2] text-[14px] text-black text-nowrap tracking-[-0.28px]">
+                      <p className="font-sans font-normal leading-[1.2] text-[14px] text-black text-nowrap tracking-[-0.28px]">
                         Catering
                       </p>
                     </div>
@@ -263,7 +279,7 @@ export default function SendPage() {
                       <div className="relative shrink-0 size-[16px]">
                         <img alt="" className="block max-w-none size-full" src={imgComputerDesk01} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       </div>
-                      <p className="font-['TWK_Lausanne'] font-normal leading-[1.2] text-[14px] text-black text-nowrap tracking-[-0.28px]">
+                      <p className="font-sans font-normal leading-[1.2] text-[14px] text-black text-nowrap tracking-[-0.28px]">
                         Workspace
                       </p>
                     </div>
@@ -277,8 +293,8 @@ export default function SendPage() {
               </div>
 
               {/* Customize button */}
-              <button className="border border-[rgba(45,114,85,0.22)] border-solid flex h-[44px] items-center justify-center px-[16px] py-[14px] rounded-[4px] w-full cursor-pointer hover:bg-[rgba(45,114,85,0.05)] transition-colors">
-                <p className="font-['TWK_Lausanne'] font-medium leading-[1.2] text-[15px] text-[#2d7255] text-nowrap">
+              <button className="border border-primary/20 border-solid flex h-[44px] items-center justify-center px-[16px] py-[14px] rounded-[4px] w-full cursor-pointer hover:bg-primary/5 transition-colors">
+                <p className="font-sans font-medium leading-[1.2] text-[15px] text-black text-nowrap">
                   Customize my demand
                 </p>
               </button>
@@ -307,22 +323,14 @@ export default function SendPage() {
 
           {/* Primary CTA Button */}
           <button 
-            className="bg-[#2d7255] flex h-[44px] items-center justify-center px-[16px] py-[14px] rounded-[4px] cursor-pointer hover:opacity-90 transition-opacity disabled:cursor-not-allowed disabled:opacity-70 min-w-[220px]"
+            className="font-sans bg-primary flex h-[44px] items-center justify-center px-[16px] py-[14px] rounded-[4px] cursor-pointer btn-hover-bg disabled:cursor-not-allowed disabled:opacity-70 min-w-[220px]"
             onClick={handleRequestClick}
             disabled={isLoading}
           >
             {isLoading ? (
-              <div 
-                className="border border-white border-t-transparent rounded-full"
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  borderWidth: '1.5px',
-                  animation: 'spin-smooth 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-                }}
-              />
+              <div className="border border-primary-foreground border-t-transparent rounded-full w-4 h-4 animate-spin" style={{ borderWidth: '1.5px' }} />
             ) : (
-              <p className="font-['TWK_Lausanne'] font-medium leading-[1.2] text-[15px] text-white text-nowrap">
+              <p className="font-sans font-medium leading-[1.2] text-[15px] text-primary-foreground text-nowrap">
                 Request availability & pricing
               </p>
             )}
@@ -345,10 +353,10 @@ export default function SendPage() {
 
           {/* Venue Info */}
           <div className="flex flex-col gap-[2px] items-start leading-[1.2] w-full">
-            <p className="font-['TWK_Lausanne'] font-normal text-[14px] text-grey tracking-[-0.28px] w-full">
+            <p className="font-sans font-normal text-[14px] text-grey tracking-[-0.28px] w-full">
               Asnières-sur-Oise, France
             </p>
-            <p className="font-['TWK_Lausanne'] font-normal text-[20px] text-black tracking-[-0.4px] w-full">
+            <p className="font-sans font-normal text-[20px] text-black tracking-[-0.4px] w-full">
               L'abbaye de Royaumont
             </p>
           </div>
@@ -357,13 +365,13 @@ export default function SendPage() {
           <div className="flex flex-col gap-[10px] items-start justify-center w-full">
             <div className="flex items-center gap-[10px]">
               <img src="/assets/type-of-stay/corporate-retreat-light.svg" alt="" className="w-[16px] h-[16px]" />
-              <p className="font-['TWK_Lausanne'] font-medium leading-[1.2] text-[15px] text-black text-nowrap tracking-[-0.28px]">
+              <p className="font-sans font-medium leading-[1.2] text-[15px] text-black text-nowrap tracking-[-0.28px]">
                 Corporate retreat
               </p>
             </div>
             <div className="flex items-center gap-[10px]">
               <HugeiconsIcon icon={UserMultiple02Icon} size={16} color="#212724" strokeWidth={1.5} />
-              <p className="font-['TWK_Lausanne'] font-medium leading-[1.2] text-[15px] text-black text-nowrap tracking-[-0.28px]">
+              <p className="font-sans font-medium leading-[1.2] text-[15px] text-black text-nowrap tracking-[-0.28px]">
                 160 participants
               </p>
             </div>
@@ -371,7 +379,7 @@ export default function SendPage() {
               <div className="relative shrink-0 size-[16px]">
                 <img alt="" className="block max-w-none size-full" src={imgCalendar03} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               </div>
-              <p className="font-['TWK_Lausanne'] font-medium leading-[1.2] text-[15px] text-black text-nowrap tracking-[-0.28px]">
+              <p className="font-sans font-medium leading-[1.2] text-[15px] text-black text-nowrap tracking-[-0.28px]">
                 May 04 - May 20
               </p>
             </div>
@@ -388,16 +396,16 @@ export default function SendPage() {
           <div className="flex items-start overflow-clip w-full">
             <div className="flex flex-col items-start">
               <div className="flex flex-col gap-[4px] items-start w-[182px]">
-                <p className="font-['TWK_Lausanne'] font-normal leading-[20px] text-[13px] text-grey text-nowrap tracking-[-0.36px]">
+                <p className="font-sans font-normal leading-[20px] text-[13px] text-grey text-nowrap tracking-[-0.36px]">
                   A partir de
                 </p>
                 <div className="flex items-start w-full">
                   <div className="flex flex-col gap-0 items-start justify-center leading-[20px] w-full">
-                    <p className="font-['TWK_Lausanne'] font-normal text-[20px] text-black tracking-[-0.6px]">
+                    <p className="font-sans font-normal text-[20px] text-black tracking-[-0.6px]">
                       <span className="font-bold mb-1">25 000,00 € </span>
                       <span className="text-black">HT</span>
                     </p>
-                    <p className="font-['TWK_Lausanne'] font-normal text-[14px] text-grey tracking-[-0.42px]">
+                    <p className="font-sans font-normal text-[14px] text-grey tracking-[-0.42px]">
                       45,00 € HT /personne
                     </p>
                   </div>

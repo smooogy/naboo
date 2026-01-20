@@ -3,7 +3,7 @@
  */
 export const typography = {
   fontFamily: {
-    sans: ['TWK Lausanne', 'system-ui', 'sans-serif'],
+    sans: ['Google Sans', 'system-ui', 'sans-serif'],
     display: ['TT Hoves Pro Trial Variable', 'system-ui', 'sans-serif'],
     mono: ['Roboto', 'monospace'],
   },
@@ -22,9 +22,9 @@ export const typography = {
   },
   
   fontWeight: {
-    normal: 400,
-    medium: 400,
-    semibold: 400,
+    normal: 500,
+    medium: 500,
+    semibold: 600,
   },
   
   lineHeight: {

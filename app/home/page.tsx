@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { Search } from '@/components/ui/Search';
 import { VenueCard, type Venue } from '@/components/VenueCard';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { UserIcon, Folder02Icon, Logout03Icon, Menu01Icon } from '@hugeicons/core-free-icons';
+import { UserIcon, Folder02Icon, Logout03Icon, Menu01Icon, PaintBoardIcon } from '@hugeicons/core-free-icons';
+import { ColorPaletteExplorer, useColorPaletteSettings } from '@/components/ColorPaletteExplorer';
 
 // Image assets - now stored locally in public/assets
-const imgVector = "/assets/66c58706ea459819ac285f4024d05bd6cecfb0b9.svg"; // Logo
+const imgVector = "/assets/logo-v2.svg"; // Logo
 const imgChevronDown = "/assets/5a5299a801da7c54ffba6f086126da822b7f3d1f.svg";
 const imgSent = "/assets/f3a44bf21a820f451f56656c46677978a048468f.svg";
 const imgCheckmarkBadge02 = "/assets/b99c41590a5feaa5041785b60fbacf2f2ec5ca09.svg";
@@ -86,10 +87,15 @@ const homeVenues: Venue[] = [
 ];
 
 export default function HomePage() {
+  // Load saved color palette settings on mount
+  useColorPaletteSettings();
+  
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingVenues, setIsLoadingVenues] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
+  const [heroVariant, setHeroVariant] = useState<'gradient' | 'video'>('gradient');
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = () => {
@@ -118,20 +124,60 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div 
-      className="min-h-screen relative size-full"
-      style={{ 
-        background: 'linear-gradient(180deg, #f4f3ee 0%, #f9f8f5 25.953%, white 35.376%)'
-      }}
-    >
-      {/* Header */}
-      <header className="relative z-10">
+    <div className="min-h-screen relative size-full bg-white">
+      {/* Color Palette Explorer */}
+      <ColorPaletteExplorer 
+        isOpen={isColorPaletteOpen} 
+        onClose={() => setIsColorPaletteOpen(false)}
+        heroVariant={heroVariant}
+        onHeroVariantChange={setHeroVariant}
+      />
+
+      {/* Hero Section with Gradient or Video */}
+      <div 
+        className="relative"
+        style={heroVariant === 'gradient' ? { 
+          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 25%, rgba(217, 225, 55, 0.04) 69.18%)',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
+        } : {}}
+      >
+        {/* Video Background */}
+        {heroVariant === 'video' && (
+          <>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src="/assets/bg-video.mp4" type="video/mp4" />
+            </video>
+            {/* Progressive blur - 0 at 50% height, 100% at bottom */}
+            <div 
+              className="absolute inset-0 backdrop-blur-[20px] pointer-events-none"
+              style={{ 
+                maskImage: 'linear-gradient(to bottom, transparent 50%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, transparent 50%, black 100%)'
+              }}
+            />
+            {/* Progressive dark overlay - 0.6 at top, 0.95 at bottom */}
+            <div 
+              className="absolute inset-0" 
+              style={{ 
+                background: 'linear-gradient(to bottom, rgb(0 0 0 / 0.6) 0%, rgb(0 0 0 / 0.95) 100%)' 
+              }} 
+            />
+          </>
+        )}
+        {/* Header */}
+        <header className="relative z-20">
         <div className="max-w-[1920px] mx-auto px-[32px] h-[72px] grid grid-cols-3 items-center">
           {/* Logo - Left */}
-          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0">
+          <Link href="/home" className="h-[24px] w-[89px] relative shrink-0 mb-[5px]">
             <img 
               alt="Naboo logo" 
-              className="block max-w-none size-full" 
+              className={`block max-w-none size-full ${heroVariant === 'video' ? 'brightness-0 invert' : ''}`}
               src={imgVector}
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
@@ -140,26 +186,26 @@ export default function HomePage() {
           {/* Navigation - Center */}
           <nav className="hidden md:flex gap-[42px] items-center justify-center">
             <div className="flex gap-[7px] items-center cursor-pointer hover:opacity-70 transition-opacity">
-              <p className="font-['TWK_Lausanne'] text-[15px] text-black tracking-[-0.3px]">
+              <p className={`font-sans text-[15px] tracking-[-0.3px] ${heroVariant === 'video' ? 'text-white' : 'text-black'}`}>
                 Our destinations
               </p>
               <div className="size-4 relative">
                 <img 
                   alt="" 
-                  className="block max-w-none size-full" 
+                  className={`block max-w-none size-full ${heroVariant === 'video' ? 'invert' : ''}`}
                   src={imgChevronDown}
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
               </div>
             </div>
             <div className="flex gap-[7px] items-center cursor-pointer hover:opacity-70 transition-opacity">
-              <p className="font-['TWK_Lausanne'] text-[15px] text-black tracking-[-0.3px]">
+              <p className={`font-sans text-[15px] tracking-[-0.3px] ${heroVariant === 'video' ? 'text-white' : 'text-black'}`}>
                 Event ideas
               </p>
               <div className="size-4 relative">
                 <img 
                   alt="" 
-                  className="block max-w-none size-full" 
+                  className={`block max-w-none size-full ${heroVariant === 'video' ? 'invert' : ''}`}
                   src={imgChevronDown}
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
@@ -169,31 +215,24 @@ export default function HomePage() {
 
           {/* CTA Buttons - Right */}
           <div className="flex gap-2 items-center justify-end">
-            <button className=" border-primary/22 border-solid h-10 px-4 py-3.5 rounded flex items-center justify-center  transition-colors cursor-pointer">
-              <span className="font-['TWK_Lausanne'] text-[15px] text-primary leading-[1.2]">
+            <button className={`font-sans h-10 px-4 py-3.5 rounded flex items-center justify-center hover:opacity-70 transition-opacity cursor-pointer ${heroVariant === 'video' ? 'border border-white/30 bg-white/10' : 'border border-primary/20'}`}>
+              <span className={`font-sans font-medium text-[15px] leading-[1.2] ${heroVariant === 'video' ? 'text-white' : 'text-black'}`}>
                 Become a partner
               </span>
             </button>
-            <button className="bg-primary h-10 px-4 py-3.5 rounded flex gap-[10px] items-center justify-center hover:bg-primary-light transition-colors cursor-pointer">
-              <span className="font-['TWK_Lausanne'] text-[15px] text-white leading-[1.2]">
+            <button className="font-sans bg-primary h-10 px-4 py-3.5 rounded flex gap-[10px] items-center justify-center btn-hover-bg cursor-pointer">
+              <span className="font-sans font-medium text-[15px] text-primary-foreground leading-[1.2]">
                 Submit a brief
               </span>
-              <div className="size-5 relative shrink-0">
-                <img 
-                  alt="" 
-                  className="block max-w-none size-full" 
-                  src={imgSent}
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
-              </div>
+              
             </button>
             {/* Hamburger Menu */}
             <div className="relative" ref={menuRef}>
               <button 
-                className="bg-[#eaeae9] flex items-center justify-center rounded-full size-10 shrink-0 hover:bg-[#ddd] transition-colors cursor-pointer"
+                className={`flex items-center justify-center rounded-full size-10 shrink-0 transition-colors cursor-pointer ${heroVariant === 'video' ? 'bg-white/20 hover:bg-white/30' : 'bg-[#eaeae9] hover:bg-[#ddd]'}`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                <HugeiconsIcon icon={Menu01Icon} size={16} color="#212724" strokeWidth={1.5} />
+                <HugeiconsIcon icon={Menu01Icon} size={16} color={heroVariant === 'video' ? '#ffffff' : '#212724'} strokeWidth={1.5} />
               </button>
 
               {/* Dropdown Menu */}
@@ -204,18 +243,32 @@ export default function HomePage() {
                 >
                   {/* User Name */}
                   <div className="px-4 py-4 border-b border-border">
-                    <p className="font-['TWK_Lausanne'] text-[16px] font-bold text-black">Maxime Beneteau</p>
+                    <p className="font-sans text-[16px] font-bold text-black">Maxime Beneteau</p>
                   </div>
 
                   {/* Menu Items */}
                   <div className="py-2">
-                    <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
+                    <button className="font-sans w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                       <HugeiconsIcon icon={UserIcon} size={20} color="#212724" strokeWidth={1.5} />
-                      <span className="font-['TWK_Lausanne'] text-[15px] text-black">Account</span>
+                      <span className="font-sans font-medium text-[15px] text-black">Account</span>
                     </button>
-                    <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
+                    <button className="font-sans w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                       <HugeiconsIcon icon={Folder02Icon} size={20} color="#212724" strokeWidth={1.5} />
-                      <span className="font-['TWK_Lausanne'] text-[15px] text-black">Projects</span>
+                      <span className="font-sans font-medium text-[15px] text-black">Projects</span>
+                    </button>
+                    <button 
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onClick={() => {
+                        setIsColorPaletteOpen(true);
+                        setIsMenuOpen(false);
+                      }}
+                      className="font-sans w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors cursor-pointer"
+                    >
+                      <HugeiconsIcon icon={PaintBoardIcon} size={20} color="#212724" strokeWidth={1.5} />
+                      <span className="font-sans font-medium text-[15px] text-black">Color & Font</span>
                     </button>
                   </div>
 
@@ -224,9 +277,9 @@ export default function HomePage() {
 
                   {/* Logout */}
                   <div className="py-2 pb-3">
-                    <button className="w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
+                    <button className="font-sans w-full px-4 py-3 flex items-center gap-3 hover:bg-grey-lighterGrey transition-colors">
                       <HugeiconsIcon icon={Logout03Icon} size={20} color="#212724" strokeWidth={1.5} />
-                      <span className="font-['TWK_Lausanne'] text-[15px] text-black">Log out</span>
+                      <span className="font-sans font-medium text-[15px] text-black">Log out</span>
                     </button>
                   </div>
                 </div>
@@ -237,15 +290,15 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section - CENTERED */}
-      <section className="relative z-10 max-w-[1920px] mx-auto px-[52px] pt-[60px] pb-0">
+      <section className="relative z-10 max-w-[1920px] mx-auto px-[52px] pb-[60px] pt-[60px] pb-0">
         <div className="flex flex-col gap-[32px] items-center">
           {/* Heading and subtitle - centered */}
           <div className="flex flex-col gap-[19px] items-center text-center">
-            <h1 className="font-['TWK_Lausanne'] text-[48px] text-black tracking-[-0.96px] leading-none w-[700px]">
-              <span>Find and book your next </span>
-              <span className="text-[#8a8a8a]">corporate meeting</span>
+            <h1 className={`font-sans text-[48px] tracking-[-0.96px] leading-none w-[700px] ${heroVariant === 'video' ? 'text-white' : 'text-black'}`}>
+              <span>Find and book your next corporate meeting </span>
+              
             </h1>
-            <p className="text-[16px] text-grey tracking-[-0.32px] leading-[1.4] w-[444px]">
+            <p className={`text-[16px] tracking-[-0.32px] leading-[1.4] w-[444px] ${heroVariant === 'video' ? 'text-white/70' : 'text-grey'}`}>
               Company retreats, offsites, away days, team building, corporate parties, conferences, business meals
             </p>
           </div>
@@ -263,22 +316,23 @@ export default function HomePage() {
               <div className="size-4 relative shrink-0">
                 <img 
                   alt="" 
-                  className="block max-w-none size-full" 
+                  className={`block max-w-none size-full ${heroVariant === 'video' ? 'invert' : ''}`}
                   src={imgCheckmarkBadge02}
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
               </div>
-              <p className="font-['TWK_Lausanne'] text-[14px] text-grey tracking-[-0.28px] leading-none">
-                <span className="font-['TWK_Lausanne'] font-bold text-black">96%</span>
+              <p className={`font-sans text-[14px] tracking-[-0.28px] leading-none ${heroVariant === 'video' ? 'text-white/70' : 'text-grey'}`}>
+                <span className={`font-sans font-bold ${heroVariant === 'video' ? 'text-white' : 'text-black'}`}>96%</span>
                 <span>{' participants satisfaction with 5,000+ events organized'}</span>
               </p>
             </div>
           </div>
         </div>
       </section>
+      </div>
 
       {/* Venues near Paris Section */}
-      <section className="relative max-w-[1920px] mx-auto px-[52px] pt-[89px] pb-0 z-0">
+      <section className="relative max-w-[1920px] mx-auto px-[52px] pt-[32px] pb-0 z-0">
         <div className="flex flex-col gap-[20px] items-start w-full max-w-[1373px] mx-auto">
           {/* Title with chevron */}
           <div className="flex gap-[8px] items-start">
@@ -293,7 +347,7 @@ export default function HomePage() {
               </>
             ) : (
               <>
-                <h2 className="font-['TWK_Lausanne'] text-[24px] text-black tracking-[-0.48px] leading-none">
+                <h2 className="font-sans text-[24px] text-black tracking-[-0.48px] leading-none">
                   <span className="text-grey">Venues near</span>
                   <span>{' Paris'}</span>
                 </h2>
@@ -358,7 +412,7 @@ export default function HomePage() {
       {/* Client Logos Section */}
       <section className="relative z-10 max-w-[1920px] mx-auto px-8 py-0 mt-[89px]">
         <div className="flex flex-col gap-[10px] items-center w-full">
-          <p className="font-['TWK_Lausanne'] text-[20px] text-grey text-center tracking-[-0.4px] w-full">
+          <p className="font-sans text-[20px] text-grey text-center tracking-[-0.4px] w-full">
             Over 500,000 employees have experienced a Naboo event
           </p>
           <div className="aspect-[2556/178] relative w-full">

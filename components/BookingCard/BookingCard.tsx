@@ -186,19 +186,19 @@ export const BookingCard = ({
   };
 
   return (
-    <div className="flex items-center shrink-0 sticky" style={{ top: '96px' }}>
-      <div className="bg-white border border-border border-solid flex flex-col gap-[24px] items-start p-[24px] relative rounded-[4px] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_28px_0px_rgba(0,0,0,0.07)] shrink-0 w-[380px]">
+    <div className="flex flex-col gap-1 items-center shrink-0 sticky" style={{ top: '88px' }}>
+      <div className="bg-white border border-border border-solid flex flex-col gap-[16px] items-start p-[24px] relative rounded-[4px] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_28px_0px_rgba(0,0,0,0.07)] shrink-0 w-[360px]">
         {/* Price Section */}
-        <div className="flex flex-col gap-[8px] items-start w-[182px]">
-          <p className="font-['TWK_Lausanne'] font-medium text-[13px] text-grey leading-[20px] tracking-[-0.36px] whitespace-nowrap">
-            Start at
+        <div className="flex flex-col gap-[8px] items-start w-full">
+          <p className="font-sans font-medium text-[13px] text-grey leading-[20px] tracking-[-0.36px]">
+            Estimated budget for your event
           </p>
-          <div className="flex flex-col gap-[2px] items-start justify-center leading-[20px] w-[182px]">
-            <p className="font-['TWK_Lausanne'] font-medium text-[24px] text-black tracking-[-0.72px]">
-              <span className="font-bold">{price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € </span>
+          <div className="flex flex-col gap-[2px] items-start justify-center leading-[20px]">
+            <p className="font-sans font-medium text-[22px] text-black tracking-[-0.44px]">
+              <span className="font-bold">{price.toLocaleString('fr-FR', { minimumFractionDigits: 0 })} - {Math.round(price * 1.12).toLocaleString('fr-FR', { minimumFractionDigits: 0 })} € </span>
               <span className="text-grey">HT</span>
             </p>
-            <p className="font-['TWK_Lausanne'] font-normal text-[14px] text-grey tracking-[-0.42px]">
+            <p className="font-sans font-normal text-[14px] text-grey tracking-[-0.42px]">
               {pricePerPerson.toFixed(2)} € HT /personne
             </p>
           </div>
@@ -222,7 +222,7 @@ export const BookingCard = ({
               <div className="flex flex-col gap-[2px] items-start leading-[1.2] relative">
                 <p 
                   className={cn(
-                    "font-['TWK_Lausanne'] font-normal text-[14px] text-grey tracking-[-0.28px] whitespace-nowrap",
+                    "font-sans font-normal text-[14px] text-grey tracking-[-0.28px] whitespace-nowrap",
                     "transition-all duration-300 ease-in-out",
                     focusedField === 'stayType' && 'opacity-0 -translate-y-2 pointer-events-none'
                   )}
@@ -231,7 +231,7 @@ export const BookingCard = ({
                 </p>
                 <p 
                   className={cn(
-                    "font-['TWK_Lausanne'] font-normal text-[15px] text-black tracking-[-0.3px] whitespace-nowrap",
+                    "font-sans font-normal text-[15px] text-black tracking-[-0.3px] whitespace-nowrap",
                     "transition-all duration-300 ease-in-out",
                     focusedField === 'stayType' && '-translate-y-[10px]'
                   )}
@@ -284,7 +284,7 @@ export const BookingCard = ({
             <div className="flex flex-col gap-[2px] items-start leading-[1.2] relative">
               <p 
                 className={cn(
-                  "font-['TWK_Lausanne'] font-normal text-[14px] text-grey tracking-[-0.28px] whitespace-nowrap",
+                  "font-sans font-normal text-[14px] text-grey tracking-[-0.28px] whitespace-nowrap",
                   "transition-all duration-300 ease-in-out",
                   focusedField === 'dates' && 'opacity-0 -translate-y-2 pointer-events-none'
                 )}
@@ -293,7 +293,7 @@ export const BookingCard = ({
               </p>
               <p 
                 className={cn(
-                  "font-['TWK_Lausanne'] font-normal text-[15px] text-black tracking-[-0.3px] whitespace-nowrap",
+                  "font-sans font-normal text-[15px] text-black tracking-[-0.3px] whitespace-nowrap",
                   "transition-all duration-300 ease-in-out",
                   focusedField === 'dates' && '-translate-y-[10px]'
                 )}
@@ -338,7 +338,7 @@ export const BookingCard = ({
             <div className="flex flex-col gap-[2px] items-start leading-[1.2] flex-1 relative">
               <p 
                 className={cn(
-                  "font-['TWK_Lausanne'] font-normal text-[14px] text-grey tracking-[-0.28px] whitespace-nowrap",
+                  "font-sans font-normal text-[14px] text-grey tracking-[-0.28px] whitespace-nowrap",
                   "transition-all duration-300 ease-in-out",
                   focusedField === 'guests' && 'opacity-0 -translate-y-2 pointer-events-none'
                 )}
@@ -353,7 +353,7 @@ export const BookingCard = ({
                 onFocus={() => setFocusedField('guests')}
                 onBlur={() => setFocusedField(null)}
                 className={cn(
-                  "font-['TWK_Lausanne'] font-normal text-[15px] text-black tracking-[-0.3px]",
+                  "font-sans font-normal text-[15px] text-black tracking-[-0.3px]",
                   "bg-transparent border-none outline-none w-full",
                   "transition-all duration-300 ease-in-out",
                   focusedField === 'guests' && '-translate-y-[10px]'
@@ -365,33 +365,53 @@ export const BookingCard = ({
         </div>
 
         {/* CTA Button */}
-        <div className="flex flex-col gap-[12px] items-center">
+        <div className="flex flex-col gap-[16px] items-start w-full">
           <button
             onClick={handleQuoteClick}
             disabled={isLoading}
-            className="bg-primary flex h-[44px] items-center justify-center px-[16px] py-[14px] relative rounded-[4px] w-[332px] cursor-pointer hover:opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
+            className="font-sans bg-primary flex h-[44px] items-center justify-center px-[16px] py-[14px] relative rounded-[4px] w-full cursor-pointer btn-hover-bg disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isLoading ? (
-              <div 
-                className="border border-white border-t-transparent rounded-full"
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  borderWidth: '1.5px',
-                  animation: 'spin-smooth 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-                }}
-              />
+              <div className="border border-primary-foreground border-t-transparent rounded-full w-4 h-4 animate-spin" style={{ borderWidth: '1.5px' }} />
             ) : (
-              <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-white leading-[1.2] whitespace-nowrap">
-                Get my quote
+              <p className="font-sans font-medium text-[15px] text-primary-foreground leading-[1.2] whitespace-nowrap">
+                Request availability & pricing
               </p>
             )}
           </button>
-          <p className="font-['TWK_Lausanne'] font-normal text-[14px] text-grey leading-[1.2] tracking-[-0.28px] whitespace-nowrap">
-            You won't be charged yet
-          </p>
+         
         </div>
+        
       </div>
+      <div className="bg-white border border-border border-solid flex flex-col gap-[16px] items-start p-[24px] relative rounded-[4px] shrink-0 w-[360px]">
+
+      <div className="flex flex-col gap-2 w-full">
+            <div className="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.333 4L6 11.333 2.667 8" stroke="#2D7255" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="font-sans font-normal text-[14px] text-grey tracking-[-0.28px]">
+                Average response in 24h
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.333 4L6 11.333 2.667 8" stroke="#2D7255" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="font-sans font-normal text-[14px] text-grey tracking-[-0.28px]">
+                No commitment
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.333 4L6 11.333 2.667 8" stroke="#2D7255" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="font-sans font-normal text-[14px] text-grey tracking-[-0.28px]">
+                Dedicated expert assigned
+              </span>
+            </div>
+            </div>
+          </div>
     </div>
   );
 };

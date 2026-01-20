@@ -169,7 +169,7 @@ export function VenueResultsWithMap({ venues, resultsCount }: VenueResultsWithMa
         <div className="flex-1 px-4 sm:px-8 lg:px-4">
           <div className="max-w-[900px] flex flex-col gap-[22px] items-start w-full py-4">
             {resultsCount && (
-              <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-grey tracking-[-0.3px] leading-[1.2] w-full">
+              <p className="font-sans font-medium text-[15px] text-grey tracking-[-0.3px] leading-[1.2] w-full">
                 {resultsCount}
               </p>
             )}
@@ -197,7 +197,7 @@ export function VenueResultsWithMap({ venues, resultsCount }: VenueResultsWithMa
           {/* Mobile Map Toggle */}
           <div className="lg:hidden w-full flex items-center justify-between">
             {resultsCount && (
-              <p className="font-['TWK_Lausanne'] font-medium text-[15px] text-grey tracking-[-0.3px] leading-[1.2]">
+              <p className="font-sans font-medium text-[15px] text-grey tracking-[-0.3px] leading-[1.2]">
                 {resultsCount}
               </p>
             )}
@@ -205,7 +205,7 @@ export function VenueResultsWithMap({ venues, resultsCount }: VenueResultsWithMa
               onClick={() => setShowMap(!showMap)}
               className="border border-border rounded flex gap-2.5 h-11 items-center justify-center px-4 py-3.5 hover:bg-grey-lighter transition-colors cursor-pointer shrink-0"
             >
-              <span className="font-['TWK_Lausanne'] text-[15px] text-black leading-[1.2]">
+              <span className="font-sans text-[15px] text-black leading-[1.2]">
                 {showMap ? 'Hide Map' : 'Show Map'}
               </span>
             </button>
@@ -247,7 +247,7 @@ export function VenueResultsWithMap({ venues, resultsCount }: VenueResultsWithMa
                       onMouseLeave={handleMarkerMouseLeave}
                     >
                       <div
-                        className={`px-3 py-1 rounded-full text-[13px] font-['TWK_Lausanne'] leading-[1.2] shadow-sm border ${
+                        className={`px-3 py-1 rounded-full text-[13px] font-sans leading-[1.2] shadow-sm border ${
                           selectedVenueId === venue.id
                             ? 'bg-black text-white border-black'
                             : activeVenueId === venue.id
@@ -385,7 +385,7 @@ export function VenueResultsWithMap({ venues, resultsCount }: VenueResultsWithMa
                 onMouseLeave={handleMarkerMouseLeave}
               >
                 <div
-                  className={`px-3 py-1 rounded-full text-[13px] font-['TWK_Lausanne'] leading-[1.2] shadow-sm border ${
+                  className={`px-3 py-1 rounded-full text-[13px] font-sans leading-[1.2] shadow-sm border ${
                     selectedVenueId === venue.id
                       ? 'bg-black text-white border-black'
                       : activeVenueId === venue.id

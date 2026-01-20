@@ -37,7 +37,7 @@ import {
 // SVG Icons as inline components for pixel-perfect rendering
 const NabooLogo = () => (
   <Image 
-    src="/assets/66c58706ea459819ac285f4024d05bd6cecfb0b9.svg" 
+    src="/assets/logo-v2.svg" 
     alt="Naboo" 
     width={89} 
     height={18} 
@@ -65,43 +65,43 @@ const SearchIcon = ({ color = "#878787" }: { color?: string }) => (
 );
 
 const HomeIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={Home01Icon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={Home01Icon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const CalendarIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={Calendar03Icon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={Calendar03Icon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const PipelineIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={AnalyticsUpIcon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={AnalyticsUpIcon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const UsersIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={UserGroupIcon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={UserGroupIcon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const ExpenseIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={Invoice01Icon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={Invoice01Icon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const QueueIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={Menu01Icon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={Menu01Icon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const SuppliersIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={Building06Icon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={Building06Icon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const BenchmarkIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={ChartBarLineIcon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={ChartBarLineIcon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const PolicyIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={SecurityCheckIcon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={SecurityCheckIcon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const WorkflowIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={WorkflowSquare10Icon} size={16} color={active ? "#2d7255" : "#737876"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={WorkflowSquare10Icon} size={16} color={active ? "#D3D676" : "#737876"} strokeWidth={1.5} />
 );
 
 const ChevronRightIcon = ({ color = "#737876" }: { color?: string }) => (
@@ -113,15 +113,15 @@ const SettingsIcon = () => (
 );
 
 const TransactionHistoryIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={TaskEdit01Icon} size={20} color={active ? "#2d7255" : "#707885"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={TaskEdit01Icon} size={20} color={active ? "#D3D676" : "#707885"} strokeWidth={1.5} />
 );
 
 const ProgressIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={Calendar01Icon} size={20} color={active ? "#2d7255" : "#707885"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={Calendar01Icon} size={20} color={active ? "#D3D676" : "#707885"} strokeWidth={1.5} />
 );
 
 const CheckmarkCircleIcon = ({ active = false }: { active?: boolean }) => (
-  <HugeiconsIcon icon={CheckmarkCircle01Icon} size={20} color={active ? "#2d7255" : "#707885"} strokeWidth={1.5} />
+  <HugeiconsIcon icon={CheckmarkCircle01Icon} size={20} color={active ? "#D3D676" : "#707885"} strokeWidth={1.5} />
 );
 
 const ClockIcon = () => (
@@ -159,7 +159,7 @@ const MenuItem = ({
     onClick={onClick}
     className={`flex items-center gap-3 px-2 py-2 rounded w-full cursor-pointer transition-all duration-200 font-normal ${
       active 
-        ? "bg-[rgba(45,114,85,0.1)]" 
+        ? "bg-primary/10" 
         : "hover:bg-grey-light/50 active:bg-grey-light"
     }`}
   >
@@ -174,7 +174,7 @@ const MenuItem = ({
       </span>
     </div>
     {hasChevron && (
-      <ChevronRightIcon color={active ? "#2d7255" : "#737876"} />
+      <ChevronRightIcon color={active ? "#D3D676" : "#737876"} />
     )}
   </button>
 );
@@ -196,7 +196,7 @@ const events = [
   {
     id: 1,
     logo: "/fake_data/cq7_1759329005051.webp",
-    company: "The mansion at Glen Cove",
+    company: "The Standard, East Village",
     type: "Séminaire résidentiel",
     amount: "49 350 €",
     participants: "78",
@@ -611,7 +611,7 @@ export default function AppDashboard() {
 
                   {/* Action */}
                   <div className="flex justify-end">
-                    <button className="h-11 px-4 py-3.5 border border-[rgba(45,114,85,0.22)] rounded flex items-center justify-center hover:bg-primary-lighter transition-colors">
+                    <button className="h-11 px-4 py-3.5 border border-primary/20 rounded flex items-center justify-center hover:opacity-70 transition-opacity">
                       <span className="text-[14px] font-bold text-primary leading-[1.2]">
                        Open
                       </span>
