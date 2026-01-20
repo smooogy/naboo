@@ -32,7 +32,7 @@ type LetterSpacingOption = '0%' | '-1%' | '-2%';
 
 const fontOptions: { label: string; value: FontOption; fontFamily: string }[] = [
   { label: 'Google Sans', value: 'Google Sans', fontFamily: "'Google Sans', system-ui, sans-serif" },
-  { label: 'Aeonik Medium', value: 'Aeonik', fontFamily: "'Aeonik Medium', 'Aeonik', system-ui, sans-serif" },
+  { label: 'Aeonik', value: 'Aeonik', fontFamily: "'Aeonik', system-ui, sans-serif" },
   { label: 'TWK Lausanne', value: 'TWK Lausanne', fontFamily: "'TWK Lausanne', system-ui, sans-serif" },
 ];
 

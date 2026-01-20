@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect } from 'react';
 
 const fontOptions: Record<string, string> = {
   'Google Sans': "'Google Sans', system-ui, sans-serif",
-  'Aeonik': "'Aeonik Medium', 'Aeonik', system-ui, sans-serif",
+  'Aeonik': "'Aeonik', system-ui, sans-serif",
   'TWK Lausanne': "'TWK Lausanne', system-ui, sans-serif",
 };
 

@@ -49,7 +49,7 @@ const colorSettingsScript = `
       if (settings.font) {
         var fontOptions = {
           'Google Sans': "'Google Sans', system-ui, sans-serif",
-          'Aeonik': "'Aeonik Medium', 'Aeonik', system-ui, sans-serif",
+          'Aeonik': "'Aeonik', system-ui, sans-serif",
           'TWK Lausanne': "'TWK Lausanne', system-ui, sans-serif"
         };
         if (fontOptions[settings.font]) {
