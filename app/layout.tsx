@@ -21,10 +21,16 @@ const colorSettingsScript = `
       var settings = JSON.parse(saved);
       var root = document.documentElement;
       
-      if (settings.colors) {
+      // Only apply colors if both primary and primary-foreground are present
+      // This ensures we don't get white text on light backgrounds
+      if (settings.colors && settings.colors['--primary'] && settings.colors['--primary-foreground']) {
         Object.keys(settings.colors).forEach(function(cssVar) {
           root.style.setProperty(cssVar, settings.colors[cssVar]);
         });
+      } else if (settings.colors) {
+        // If data is incomplete, clear it to avoid inconsistent state
+        localStorage.removeItem('colorPaletteSettings');
+        return;
       }
       
       if (settings.customColors) {
@@ -59,7 +65,10 @@ const colorSettingsScript = `
         }
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    // If there's any error, clear potentially corrupted data
+    localStorage.removeItem('colorPaletteSettings');
+  }
 })();
 `;
 
