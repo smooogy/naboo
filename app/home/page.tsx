@@ -96,7 +96,25 @@ export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
   const [heroVariant, setHeroVariant] = useState<'gradient' | 'video'>('gradient');
+  const [primaryColor, setPrimaryColor] = useState('#D3D676');
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Listen for primary color changes
+  useEffect(() => {
+    const updatePrimaryColor = () => {
+      const color = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+      if (color) setPrimaryColor(color);
+    };
+    
+    // Initial load
+    updatePrimaryColor();
+    
+    // Create observer to watch for style changes
+    const observer = new MutationObserver(updatePrimaryColor);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+    
+    return () => observer.disconnect();
+  }, []);
 
   const handleSearch = () => {
     setIsLoading(true);
@@ -137,7 +155,7 @@ export default function HomePage() {
       <div 
         className="relative"
         style={heroVariant === 'gradient' ? { 
-          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 25%, rgba(217, 225, 55, 0.04) 69.18%)',
+          background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 25%, ${primaryColor}0A 69.18%)`,
           borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
         } : {}}
       >
