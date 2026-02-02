@@ -1,0 +1,167 @@
+/**
+ * Riv page – mini design system
+ * Scoped to .riv-page only. Do not use these tokens outside /riv.
+ *
+ * Color tokens (from design system table):
+ * - black, grey, border, primary, white, grey-light
+ * - black 10%, primary 10%, primary 20%
+ * Font: Aeonik, regular (400) by default
+ */
+
+.riv-page {
+  /* Color tokens – base */
+  --riv-black: #212721;
+  --riv-grey: #737876;
+  --riv-border: #E0E0E0;
+  --riv-primary: #C6E278;
+  --riv-white: #FFFFFF;
+  --riv-grey-light: #F1F1F1;
+
+  /* Color tokens – derived */
+  --riv-black-10: rgba(0, 0, 0, 0.1);
+  --riv-primary-10: #2D7255;
+  --riv-primary-20: #2D7255;
+
+  /* Semantic (primary text on primary bg) */
+  --riv-primary-foreground: var(--riv-black);
+
+  /* Typography */
+  --riv-font-family: 'Aeonik', system-ui, sans-serif;
+  --riv-font-weight: 400;
+  --riv-font-weight-medium: 500;
+  letter-spacing: -0.015em; /* -1.5% for whole page */
+}
+
+/* Apply default font to all content */
+.riv-page,
+.riv-page *,
+.riv-page *::before,
+.riv-page *::after {
+  font-family: var(--riv-font-family) !important;
+}
+
+/* Default font-weight: regular (400) – override with .riv-font-medium or .font-semibold where needed */
+.riv-page {
+  font-weight: var(--riv-font-weight);
+}
+
+/* Headings and .font-normal use regular (400) on riv page – overrides global h1–h6 and .font-normal */
+.riv-page h1,
+.riv-page h2,
+.riv-page h3,
+.riv-page h4,
+.riv-page h5,
+.riv-page h6,
+.riv-page .font-normal {
+  font-weight: var(--riv-font-weight) !important;
+}
+
+/* Hero h1: line-height 95% */
+.riv-page .riv-hero-title {
+  line-height: 95%;
+}
+
+/* Medium weight (500) for nav links, buttons, links */
+.riv-page .riv-font-medium,
+.riv-page button,
+.riv-page [role="button"],
+.riv-page a {
+  font-weight: var(--riv-font-weight-medium) !important;
+}
+
+/* Primary button and primary accents use riv primary */
+.riv-page .riv-btn-primary {
+  background-color: var(--riv-primary) !important;
+  color: var(--riv-primary-foreground) !important;
+}
+
+.riv-page .riv-bg-primary {
+  background-color: var(--riv-primary) !important;
+}
+
+.riv-page .riv-text-primary {
+  color: var(--riv-primary) !important;
+}
+
+.riv-page .riv-text-black {
+  color: var(--riv-black) !important;
+}
+
+/* Client logos marquee – slow infinite scroll */
+@keyframes riv-logos-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.riv-page .riv-logos-marquee {
+  animation: riv-logos-marquee-scroll 45s linear infinite;
+  width: max-content;
+}
+
+/* AI planner button – slow text shimmer on hover (Cursor-style) */
+@keyframes riv-text-shimmer {
+  0%,
+  100% {
+    background-position: 200% center;
+  }
+  50% {
+    background-position: -200% center;
+  }
+}
+
+.riv-page .riv-ai-planner-shimmer {
+  color: var(--riv-black);
+  transition: color 0.2s ease-out;
+}
+
+.riv-page .riv-ai-planner-btn:hover .riv-ai-planner-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--riv-black) 0%,
+    var(--riv-black) 25%,
+    var(--riv-primary) 50%,
+    var(--riv-black) 75%,
+    var(--riv-black) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 0% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: riv-text-shimmer 4.5s ease-in-out infinite;
+}
+
+/* AI planner spotlight – wave scale (bigger/smaller) on hover */
+@keyframes riv-spotlight-wave {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+}
+
+.riv-page .riv-ai-planner-spotlight-wave {
+  animation: riv-spotlight-wave 2s ease-in-out infinite;
+}
+
+/* Hero app frame – reveal by moving up */
+@keyframes riv-hero-reveal {
+  from {
+    opacity: 0.6;
+    transform: translateY(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.riv-page .riv-hero-app-frame-reveal {
+  animation: riv-hero-reveal 0.9s ease-out forwards;
+}
