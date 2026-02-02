@@ -1,0 +1,7 @@
+/* Tamtam page: match Figma font (TT Hoves) and override global font */
+.tamtam-page,
+.tamtam-page *,
+.tamtam-page *::before,
+.tamtam-page *::after {
+  font-family: 'TT Hoves Pro Trial', 'TT Hoves Pro Trial Variable', system-ui, sans-serif !important;
+}
