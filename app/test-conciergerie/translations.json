@@ -1,0 +1,26 @@
+{
+  "en": {
+    "input-placeholder": "Ask your concierge...",
+    "question-1": "What kind of event are you planning?",
+    "advisor": "Naboo Concierge",
+    "reply-1": "You have 2 options"
+  },
+  "fr": {
+    "input-placeholder": "Demandez à votre concierge...",
+    "question-1": "Quel type d'événement planifiez-vous ?",
+    "advisor": "Concierge Naboo",
+    "reply-1": "Vous avez 2 options"
+  },
+  "es": {
+    "input-placeholder": "Pregunta a tu conserje...",
+    "question-1": "¿Qué tipo de evento estás planeando?",
+    "advisor": "Concierge Naboo",
+    "reply-1": "Tienes 2 opciones"
+  },
+  "de": {
+    "input-placeholder": "Fragen Sie Ihren Concierge...",
+    "question-1": "Welche Art von Veranstaltung planen Sie?",
+    "advisor": "Naboo Concierge",
+    "reply-1": "Sie haben 2 Optionen"
+  }
+}
