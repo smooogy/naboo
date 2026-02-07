@@ -1,26 +1,150 @@
 {
   "en": {
-    "input-placeholder": "Ask your concierge...",
-    "question-1": "What kind of event are you planning?",
-    "advisor": "Naboo Concierge",
-    "reply-1": "You have 2 options"
+    "conciergerie": {
+      "input-placeholder": "Ask your concierge...",
+      "question-1": "What kind of event are you planning?",
+      "advisor": "Naboo Concierge",
+      "reply-1": "You have 2 options",
+      "reply-2": "Choose your catering",
+      "food-option-1": "Buffet",
+      "food-option-2": "Plated"
+    },
+    "venueSourcing": {
+      "location-1": "Sundance Mountain Resort",
+      "city-1": "Utah, USA",
+      "type-1": "Mountain",
+      "location-2": "The Glass House",
+      "city-2": "London, UK",
+      "type-2": "Urban",
+      "location-3": "Villa Bel Air",
+      "city-3": "Paris, France",
+      "type-3": "Luxury"
+    },
+    "centralizedInvoices": {
+      "invoice-1": "Invoice #1001",
+      "invoice-2": "Invoice #1002",
+      "invoice-3": "Invoice #1003",
+      "invoice-4": "Invoice #1004",
+      "invoice-new": "New invoice"
+    },
+    "procurement": {
+      "policies": "Spend policies",
+      "budget-approved": "Budget approved",
+      "policy-compliant": "Policy compliant",
+      "manager": "Manager",
+      "approved": "Approved",
+      "pending": "Pending"
+    }
   },
   "fr": {
-    "input-placeholder": "Demandez à votre concierge...",
-    "question-1": "Quel type d'événement planifiez-vous ?",
-    "advisor": "Concierge Naboo",
-    "reply-1": "Vous avez 2 options"
+    "conciergerie": {
+      "input-placeholder": "Demandez à votre concierge...",
+      "question-1": "Quel type d'événement planifiez-vous ?",
+      "advisor": "Concierge Naboo",
+      "reply-1": "Vous avez 2 options",
+      "reply-2": "Choisissez votre restauration",
+      "food-option-1": "Buffet",
+      "food-option-2": "Assiette"
+    },
+    "venueSourcing": {
+      "location-1": "Sundance Mountain Resort",
+      "city-1": "Utah, États-Unis",
+      "type-1": "Montagne",
+      "location-2": "The Glass House",
+      "city-2": "Londres, Royaume-Uni",
+      "type-2": "Urbain",
+      "location-3": "Villa Bel Air",
+      "city-3": "Paris, France",
+      "type-3": "Luxe"
+    },
+    "centralizedInvoices": {
+      "invoice-1": "Facture n° 1001",
+      "invoice-2": "Facture n° 1002",
+      "invoice-3": "Facture n° 1003",
+      "invoice-4": "Facture n° 1004",
+      "invoice-new": "Nouvelle facture"
+    },
+    "procurement": {
+      "policies": "Politiques de dépenses",
+      "budget-approved": "Budget approuvé",
+      "policy-compliant": "Conforme aux règles",
+      "manager": "Responsable",
+      "approved": "Approuvé",
+      "pending": "En attente"
+    }
   },
   "es": {
-    "input-placeholder": "Pregunta a tu conserje...",
-    "question-1": "¿Qué tipo de evento estás planeando?",
-    "advisor": "Concierge Naboo",
-    "reply-1": "Tienes 2 opciones"
+    "conciergerie": {
+      "input-placeholder": "Pregunta a tu conserje...",
+      "question-1": "¿Qué tipo de evento estás planeando?",
+      "advisor": "Concierge Naboo",
+      "reply-1": "Tienes 2 opciones",
+      "reply-2": "Elige tu catering",
+      "food-option-1": "Buffet",
+      "food-option-2": "Servicio a la mesa"
+    },
+    "venueSourcing": {
+      "location-1": "Sundance Mountain Resort",
+      "city-1": "Utah, EE. UU.",
+      "type-1": "Montaña",
+      "location-2": "The Glass House",
+      "city-2": "Londres, Reino Unido",
+      "type-2": "Urbano",
+      "location-3": "Villa Bel Air",
+      "city-3": "París, Francia",
+      "type-3": "Lujo"
+    },
+    "centralizedInvoices": {
+      "invoice-1": "Factura n.º 1001",
+      "invoice-2": "Factura n.º 1002",
+      "invoice-3": "Factura n.º 1003",
+      "invoice-4": "Factura n.º 1004",
+      "invoice-new": "Nueva factura"
+    },
+    "procurement": {
+      "policies": "Políticas de gasto",
+      "budget-approved": "Presupuesto aprobado",
+      "policy-compliant": "Conforme a la política",
+      "manager": "Responsable",
+      "approved": "Aprobado",
+      "pending": "Pendiente"
+    }
   },
   "de": {
-    "input-placeholder": "Fragen Sie Ihren Concierge...",
-    "question-1": "Welche Art von Veranstaltung planen Sie?",
-    "advisor": "Naboo Concierge",
-    "reply-1": "Sie haben 2 Optionen"
+    "conciergerie": {
+      "input-placeholder": "Fragen Sie Ihren Concierge...",
+      "question-1": "Welche Art von Veranstaltung planen Sie?",
+      "advisor": "Naboo Concierge",
+      "reply-1": "Sie haben 2 Optionen",
+      "reply-2": "Wählen Sie Ihr Catering",
+      "food-option-1": "Buffet",
+      "food-option-2": "Menü"
+    },
+    "venueSourcing": {
+      "location-1": "Sundance Mountain Resort",
+      "city-1": "Utah, USA",
+      "type-1": "Berg",
+      "location-2": "The Glass House",
+      "city-2": "London, UK",
+      "type-2": "Urban",
+      "location-3": "Villa Bel Air",
+      "city-3": "Paris, Frankreich",
+      "type-3": "Luxus"
+    },
+    "centralizedInvoices": {
+      "invoice-1": "Rechnung Nr. 1001",
+      "invoice-2": "Rechnung Nr. 1002",
+      "invoice-3": "Rechnung Nr. 1003",
+      "invoice-4": "Rechnung Nr. 1004",
+      "invoice-new": "Neue Rechnung"
+    },
+    "procurement": {
+      "policies": "Ausgaberichtlinien",
+      "budget-approved": "Budget genehmigt",
+      "policy-compliant": "Richtlinienkonform",
+      "manager": "Verantwortlicher",
+      "approved": "Genehmigt",
+      "pending": "Ausstehend"
+    }
   }
 }

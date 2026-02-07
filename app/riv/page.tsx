@@ -11,6 +11,7 @@ import {
   Menu01Icon,
   SparklesIcon,
 } from '@hugeicons/core-free-icons';
+import { Users, DollarSign } from 'lucide-react';
 
 /* Client logos for "employees have experienced" section */
 const clientLogos = [
@@ -188,6 +189,66 @@ function RiveCard({
         />
       </div>
     </article>
+  );
+}
+
+/* Cobe globe – client-only, dynamic import. Change GLOBE_ROTATION_SPEED to adjust spin (higher = faster). */
+const GLOBE_ROTATION_SPEED = 0.001;
+
+function CobeGlobe({ className }: { className?: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const phiRef = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    let globe: { destroy: () => void } | null = null;
+
+    import('cobe').then(({ default: createGlobe }) => {
+      globe = createGlobe(canvas, {
+        devicePixelRatio: 2,
+        width: 1000,
+        height: 1000,
+        phi: 0,
+        theta: 0,
+        dark: 0.3,
+        diffuse: 0,
+        scale: 1,
+        mapSamples: 6000,
+        mapBrightness: 6,
+        baseColor: [0.9, 0.92, 0.95],
+        markerColor: [0.78, 29, 0.47],
+        glowColor: [0.9, 0.92, 0.95],
+        offset: [0, 0],
+        markers: [
+          { location: [48.8566, 2.3522], size: 0.06 },
+          { location: [41.3851, 2.1734], size: 0.05 },
+          { location: [51.5074, -0.1278], size: 0.05 },
+          { location: [45.5017, -73.5673], size: 0.05 },
+          { location: [40.7128, -74.006], size: 0.06 },
+        ],
+        onRender: (state) => {
+          state.phi = phiRef.current;
+          phiRef.current += GLOBE_ROTATION_SPEED; // e.g. 0.01 = default, 0.02 = faster, 0.005 = slower
+        },
+      });
+    });
+
+    return () => {
+      globe?.destroy();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={className}
+      style={{ width: '100%', height: '100%', display: 'block' }}
+      width={1000}
+      height={1000}
+      aria-hidden
+    />
   );
 }
 
@@ -526,6 +587,72 @@ export default function RivPage() {
             </article>
           ))}
         </div>
+        </div>
+      </section>
+
+      {/* Global presence, local approach */}
+      <section className="w-full py-20 bg-[var(--riv-grey-light)]">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-[60px]">
+          <h2 className="text-center text-[32px] font-semibold text-[var(--riv-black)] tracking-[-0.68px] leading-[1.2] mb-3">
+            Global presence, local approach
+          </h2>
+          <p className="text-center text-lg text-[var(--riv-grey)] max-w-[600px] mx-auto mb-12">
+            Full visibility, built-in compliance, and measurable savings.
+          </p>
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Left: single card – Offices + Globe */}
+            <div className="lg:w-[58%] rounded bg-white overflow-hidden flex flex-col">
+              <span className="inline-flex w-fit rounded-md bg-[var(--riv-grey)] text-white text-sm font-medium px-3 py-1.5 mb-4">
+                Offices
+              </span>
+              <p className="text-[var(--riv-black)] text-[28px] max-w-md mb-6">
+                We are in{' '}
+                <span className="font-semibold">Paris, Barcelona, London, Montréal and New-York</span>
+              </p>
+              <div className="flex-1 min-h-[280px] lg:min-h-[360px] w-full relative -mx-2 lg:-mx-4 -mt-4 overflow-hidden">
+                <div className="absolute inset-0 w-full h-full origin-top-left scale-[1.5] [transform:scale(1.5)_translateY(-8%)]">
+                  <CobeGlobe className="absolute inset-0 w-full h-full" />
+                </div>
+              </div>
+            </div>
+            {/* Right: two cards in a row, then image below */}
+            <div className="lg:w-[42%] flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col w-full rounded bg-white border border-[var(--riv-border)] p-5 flex gap-4">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-[var(--riv-primary)]/30 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-[var(--riv-primary-10)]" strokeWidth={2} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[22px] font-semibold text-[var(--riv-black)]">200 people</div>
+                    <div className="text-base text-[var(--riv-grey)]">Across 6 offices</div>
+                  </div>
+                </div>
+                <div className="flex flex-col w-full rounded bg-white border border-[var(--riv-border)] p-5 flex gap-4">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-[var(--riv-primary)]/30 flex items-center justify-center">
+                    <DollarSign className="w-5 h-5 text-[var(--riv-primary-10)]" strokeWidth={2} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[22px] font-semibold text-[var(--riv-black)]">$100M raised</div>
+                    <div className="text-base text-[var(--riv-grey)]">Fastest growing company</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded overflow-hidden bg-white border border-[var(--riv-border)]">
+                <div className="aspect-[4/3] relative min-h-[200px]">
+                  <Image
+                    src="/naboo-office-interior.webp"
+                    alt="Office in Paris, France"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                  />
+                  <div className="absolute left-4 bottom-4 right-4 py-2.5 px-3 rounded-lg bg-black/50 backdrop-blur-sm">
+                    <span className="text-white text-sm font-medium">Office in Paris, France</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
