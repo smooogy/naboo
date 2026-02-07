@@ -165,3 +165,50 @@
 .riv-page .riv-hero-app-frame-reveal {
   animation: riv-hero-reveal 0.9s ease-out forwards;
 }
+
+/* Hero right block – reveal on scroll (short, smooth sequence) */
+.riv-page .hero-reveal-root .hero-reveal-gradient {
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+}
+.riv-page .hero-reveal-root.hero-revealed .hero-reveal-gradient {
+  opacity: 1;
+}
+
+.riv-page .hero-reveal-root .hero-reveal-enusd {
+  opacity: 0.5;
+  transform: translateX(-80px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.riv-page .hero-reveal-root.hero-revealed .hero-reveal-enusd {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.riv-page .hero-reveal-root .hero-reveal-imghero {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+.riv-page .hero-reveal-root.hero-revealed .hero-reveal-imghero {
+  opacity: 1;
+}
+
+.riv-page .hero-reveal-root .hero-reveal-iphone {
+  transform: translateY(50px);
+  transition: transform 0.45s ease-out 0.08s;
+}
+.riv-page .hero-reveal-root.hero-revealed .hero-reveal-iphone {
+  transform: translateY(0);
+}
+
+.riv-page .hero-reveal-root .hero-reveal-advisor {
+  opacity: 0;
+  transform: translateY(10px) scale(0.92);
+  transition:
+    opacity 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s,
+    transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s;
+}
+.riv-page .hero-reveal-root.hero-revealed .hero-reveal-advisor {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}

@@ -257,8 +257,10 @@ const SCROLL_SPEED_FACTOR = 1.1; // 110% scroll speed (faster)
 export default function RivPage() {
   const collectionScrollRef = useRef<HTMLDivElement>(null);
   const heroScrollTargetRef = useRef<HTMLElement | null>(null);
+  const heroRightRef = useRef<HTMLDivElement>(null);
   const aiPlannerBtnRef = useRef<HTMLButtonElement>(null);
   const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [heroRevealed, setHeroRevealed] = useState(false);
   const [aiPlannerSpotlight, setAiPlannerSpotlight] = useState<{ x: number; y: number } | null>(null);
 
   const handleAiPlannerMouseMove = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
@@ -296,6 +298,21 @@ export default function RivPage() {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = heroRightRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setHeroRevealed(true);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   const scrollCollection = (direction: 'left' | 'right') => {
@@ -426,22 +443,81 @@ export default function RivPage() {
               </button>
             </div>
           </div>
-          {/* Right: container with hero-bg (cover), not full height; app-frame image aligned at bottom */}
+          {/* Right: composed hero – gradient container (540px) + img-hero (300px), total 580px high */}
           <div
-            className="hidden lg:flex lg:w-1/2 relative bg-cover bg-center bg-no-repeat min-h-[520px] w-full pl-[70px] pt-[40px] rounded-[12px]"
-            style={{
-              backgroundImage: 'url(/hero-bg.png)',
-            }}
+            ref={heroRightRef}
+            className={`hero-reveal-root hidden lg:flex h-[580px] flex-shrink-0 rounded-[12px] overflow-visible relative ${heroRevealed ? 'hero-revealed' : ''}`}
             aria-hidden
           >
-            <div className="relative w-full h-full min-h-0 flex flex-col justify-end items-end pt-12 pb-0 pr-0 overflow-hidden">
+            {/* Card above first container */}
+            <div
+              className="hero-reveal-advisor absolute z-20 flex items-center gap-[15.6px] px-4 py-3"
+              style={{
+                width: 280,
+                left: 298,
+                top: 86,
+                height: 'auto',
+                background: 'rgba(255, 255, 255, 0.70)',
+                boxShadow: '0px 1.3px 1.3px rgba(0, 0, 0, 0.02), 0px 2.6px 26px rgba(0, 0, 0, 0.04), 0px 1.3px 5.2px rgba(0, 0, 0, 0.03)',
+                borderRadius: 5.92,
+                outline: '0.50px rgba(0, 0, 0, 0.08) solid',
+                backdropFilter: 'blur(22.10px)',
+              }}
+            >
+           
               <Image
-                src="/hero-app-frame.png"
+                src="/advisor.png"
                 alt=""
-                width={697}
-                height={604}
-                className="w-auto max-w-full object-contain object-right riv-hero-app-frame-reveal block"
-                style={{ maxHeight: 604 }}
+                width={43}
+                height={55}
+                className="shrink-0 object-contain"
+              />
+              <div className="flex flex-1 min-w-0 flex-col justify-center gap-1.5">
+                <div
+                  className="text-[13px] font-normal leading-tight text-[var(--riv-grey)]"
+                  style={{ fontFamily: 'Aeonik, system-ui, sans-serif' }}
+                >
+                  Personal adviser
+                </div>
+                <div
+                  className="h-[9px] w-[170px] max-w-full rounded-[10px]"
+                  style={{
+                    background: 'linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0%, rgba(102, 102, 102, 0.02) 100%)',
+                  }}
+                />
+              </div>
+            </div>
+            <div
+              className="hero-reveal-gradient w-[540px] h-[580px] relative shrink-0 overflow-hidden rounded-[12px]"
+              style={{
+                background: 'linear-gradient(180deg, rgba(221, 228, 241, 0.00) 26.23%, #DDE4F1 57.21%)',
+              }}
+            >
+              <Image
+                src="/en-usd.png"
+                alt=""
+                width={400}
+                height={400}
+                className="hero-reveal-enusd absolute left-0 bottom-0 w-auto h-auto max-h-full object-contain object-left"
+                priority
+                unoptimized
+              />
+              <Image
+                src="/iPhone.png"
+                alt=""
+                width={140}
+                height={260}
+                className="hero-reveal-iphone absolute bottom-0 left-[10px] h-[280px] w-auto object-contain object-left z-10"
+                priority
+                unoptimized
+              />
+            </div>
+            <div className="hero-reveal-imghero w-[300px] h-[580px] relative shrink-0">
+              <Image
+                src="/img-hero.png"
+                alt=""
+                fill
+                className="object-cover object-center"
                 priority
                 unoptimized
               />
