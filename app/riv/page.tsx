@@ -51,7 +51,16 @@ const collectionCategories = [
 
 const RIVE_HEIGHT = 260;
 
-const cards = [
+type GetToKnowCard = {
+  title: string;
+  description: string;
+  riv: string;
+  autoplay?: boolean;
+  /** Scale the Rive inside the container (e.g. 1.3 = 130%) so it appears larger */
+  scale?: number;
+};
+
+const cards: GetToKnowCard[] = [
   {
     title: 'Venue sourcing',
     description: 'Source any vendor for your event',
@@ -82,24 +91,59 @@ const cards = [
     description: 'Policies and approvals under control',
     riv: '/rive/procurement-v2.riv',
   },
+  {
+    title: 'AI Brief',
+    description: 'AI-powered event briefs',
+    riv: '/rive/ai-brief.riv',
+    autoplay: true,
+    scale: 1.2,
+  },
+  {
+    title: 'Apple Pay',
+    description: 'Pay with Apple Pay',
+    riv: '/rive/apple-pay-data.riv',
+    autoplay: true,
+  },
+  {
+    title: 'Multi-basket',
+    description: 'Manage multiple event baskets',
+    riv: '/rive/multi-basket-data.riv',
+    autoplay: true,
+  },
 ];
 
 function RiveCard({
   title,
   description,
   src,
+  autoplay = false,
+  scale: scaleProp,
 }: {
   title: string;
   description: string;
   src: string;
+  autoplay?: boolean;
+  scale?: number;
 }) {
+  const scale = scaleProp != null && scaleProp > 1 ? scaleProp : 1;
   const containerRef = useRef<HTMLDivElement>(null);
   const { rive, RiveComponent, setContainerRef } = useRive(
     {
       src,
-      animations: ['on', 'off'],
-      autoplay: false,
-      layout: new Layout({ fit: Fit.Contain, alignment: Alignment.BottomRight }),
+      ...(autoplay
+        ? { layout: new Layout({ fit: Fit.Cover, alignment: Alignment.Center }) }
+        : {
+            animations: ['on', 'off'],
+            autoplay: false,
+            layout: new Layout({ fit: Fit.Contain, alignment: Alignment.BottomRight }),
+          }),
+      ...(autoplay ? { autoplay: true } : {}),
+      onRiveReady: autoplay
+        ? (r) => {
+            const names = r.animationNames ?? [];
+            if (names.length > 0) r.play(names[0]);
+          }
+        : undefined,
     },
     { shouldResizeCanvasToContainer: true }
   );
@@ -113,14 +157,19 @@ function RiveCard({
     [setContainerRef]
   );
 
-  // Show idle state as soon as Rive is ready so the illustration appears without hover
+  // Show idle state (hover cards) or keep playing (autoplay cards)
   useEffect(() => {
     if (!rive) return;
-    rive.stop();
-    rive.play('off');
-  }, [rive]);
+    if (autoplay) {
+      const names = rive.animationNames ?? [];
+      if (names.length > 0) rive.play(names[0]);
+    } else {
+      rive.stop();
+      rive.play('off');
+    }
+  }, [rive, autoplay]);
 
-  // Resize: call resizeDrawingSurfaceToCanvas() and restore animation state (fix viewport scaling + state machine interruption)
+  // Resize: call resizeDrawingSurfaceToCanvas() and restore animation state
   useEffect(() => {
     if (!rive || !containerRef.current) return;
     const el = containerRef.current;
@@ -129,9 +178,16 @@ function RiveCard({
         requestAnimationFrame(() => {
           if (!rive || !el || el.offsetWidth <= 0 || el.offsetHeight <= 0) return;
           rive.resizeDrawingSurfaceToCanvas();
-          // Re-play current state so animation doesn't stop or disappear after layout shift
-          rive.stop();
-          rive.play('off');
+          if (autoplay) {
+            const names = rive.animationNames ?? [];
+            if (names.length > 0) {
+              rive.stop();
+              rive.play(names[0]);
+            }
+          } else {
+            rive.stop();
+            rive.play('off');
+          }
         });
       });
     };
@@ -142,51 +198,67 @@ function RiveCard({
       ro.disconnect();
       window.removeEventListener('resize', handleResize);
     };
-  }, [rive]);
+  }, [rive, autoplay]);
 
   const playOn = useCallback(() => {
-    if (!rive) return;
+    if (!rive || autoplay) return;
     rive.stop();
     rive.play('on');
-  }, [rive]);
+  }, [rive, autoplay]);
 
   const playOff = useCallback(() => {
-    if (!rive) return;
+    if (!rive || autoplay) return;
     rive.stop();
     rive.play('off');
-  }, [rive]);
+  }, [rive, autoplay]);
 
   return (
     <article
-      className="group flex flex-col rounded-md bg-[#F5F6F8] overflow-hidden transition-all duration-200"
+      className={`group flex flex-col rounded-md bg-[#F5F6F8] overflow-hidden transition-all duration-200 ${autoplay ? 'p-0' : ''}`}
       style={{ pointerEvents: 'auto' }}
     >
-      <div className="px-6 pt-6 shrink-0 mb-4">
-        <h3 className="text-[22px] font-bold text-[var(--riv-black)] tracking-[-0.48px] ">
+      <div className={autoplay ? 'pt-6 shrink-0 mb-4' : 'px-6 pt-6 shrink-0 mb-4'}>
+        <h3 className={`text-[22px] font-bold text-[var(--riv-black)] tracking-[-0.48px] ${autoplay ? 'px-6' : ''}`}>
           {title}
         </h3>
-        <p className="text-[18px] text-[#666666] tracking-[-0.32px] leading-[1.5] max-w-[280px]">
+        <p className={`text-[18px] text-[#666666] tracking-[-0.32px] leading-[1.5] max-w-[280px] ${autoplay ? 'px-6' : ''}`}>
           {description}
         </p>
       </div>
-      {/* Rive container: responsive dimensions so canvas can scale; resizeDrawingSurfaceToCanvas() handles resize */}
+      {/* Rive container: fixed height for hover cards; aspect-ratio (fluid height) for autoplay so Cover shows full animation */}
       <div
         ref={setRef}
-        className="relative w-full overflow-hidden block leading-[0] bg-[#F5F6F8] mt-auto shrink-0"
+        className={`relative w-full overflow-hidden block leading-[0] bg-[#F5F6F8] mt-auto shrink-0 ${autoplay ? 'mb-0' : ''}`}
         style={{
           width: '100%',
-          height: RIVE_HEIGHT,
-          minHeight: RIVE_HEIGHT,
-          minWidth: 1,
+          ...(autoplay
+            ? { aspectRatio: '1/1', minHeight: 200, minWidth: 1 }
+            : { height: RIVE_HEIGHT, minHeight: RIVE_HEIGHT, minWidth: 1 }),
           pointerEvents: 'auto',
         }}
-        onMouseEnter={playOn}
-        onMouseLeave={playOff}
+        onMouseEnter={autoplay ? undefined : playOn}
+        onMouseLeave={autoplay ? undefined : playOff}
       >
-        <RiveComponent
-          className="w-full h-full"
-          style={{ width: '100%', height: '100%', display: 'block' }}
-        />
+        {scale > 1 ? (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              transform: `scale(${scale}) translateY(-32px)`,
+              transformOrigin: 'center center',
+            }}
+          >
+            <RiveComponent
+              className="w-full h-full"
+              style={{ width: '100%', height: '100%', display: 'block' }}
+            />
+          </div>
+        ) : (
+          <RiveComponent
+            className="w-full h-full"
+            style={{ width: '100%', height: '100%', display: 'block' }}
+          />
+        )}
       </div>
     </article>
   );
@@ -568,6 +640,8 @@ export default function RivPage() {
               title={card.title}
               description={card.description}
               src={card.riv}
+              autoplay={card.autoplay}
+              scale={card.scale}
             />
           ))}
         </div>

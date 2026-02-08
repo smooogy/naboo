@@ -34,6 +34,29 @@
       "manager": "Manager",
       "approved": "Approved",
       "pending": "Pending"
+    },
+    "multiBasket": {
+      "your-event": "Your event",
+      "ridehorsing": "Ridehorsing",
+      "activity": "Activity",
+      "344p": "$344/p",
+      "catering": "Catering",
+      "palace-garden": "Palace garden",
+      "80p": "$80/p",
+      "transport": "Transport",
+      "eurostar": "Eurostar",
+      "120p": "$120/p",
+      "venue": "Venue",
+      "sunny-resort": "Sunny resort",
+      "22500": "$22,500",
+      "participants": "160 participants",
+      "date": "May 04 - May 20",
+      "book-now": "Book now"
+    },
+    "applePay": {
+      "cocktail-bar": "Cocktail bar",
+      "via-naboo": "Via Naboo",
+      "-$20": "-$20"
     }
   },
   "fr": {
@@ -71,6 +94,29 @@
       "manager": "Responsable",
       "approved": "Approuvé",
       "pending": "En attente"
+    },
+    "multiBasket": {
+      "your-event": "Votre événement",
+      "ridehorsing": "Équitation",
+      "activity": "Activité",
+      "344p": "344 €/p",
+      "catering": "Restauration",
+      "palace-garden": "Jardin du palais",
+      "80p": "80 €/p",
+      "transport": "Transport",
+      "eurostar": "Eurostar",
+      "120p": "120 €/p",
+      "venue": "Lieu",
+      "sunny-resort": "Résidence ensoleillée",
+      "22500": "22 500 €",
+      "participants": "160 participants",
+      "date": "4 mai - 20 mai",
+      "book-now": "Réserver"
+    },
+    "applePay": {
+      "cocktail-bar": "Bar à cocktails",
+      "via-naboo": "Via Naboo",
+      "-$20": "-20 €"
     }
   },
   "es": {
@@ -108,6 +154,29 @@
       "manager": "Responsable",
       "approved": "Aprobado",
       "pending": "Pendiente"
+    },
+    "multiBasket": {
+      "your-event": "Tu evento",
+      "ridehorsing": "Equitación",
+      "activity": "Actividad",
+      "344p": "344 €/p",
+      "catering": "Catering",
+      "palace-garden": "Jardín del palacio",
+      "80p": "80 €/p",
+      "transport": "Transporte",
+      "eurostar": "Eurostar",
+      "120p": "120 €/p",
+      "venue": "Lugar",
+      "sunny-resort": "Resort soleado",
+      "22500": "22.500 €",
+      "participants": "160 participantes",
+      "date": "4 mayo - 20 mayo",
+      "book-now": "Reservar ahora"
+    },
+    "applePay": {
+      "cocktail-bar": "Bar de cócteles",
+      "via-naboo": "Via Naboo",
+      "-$20": "-20 €"
     }
   },
   "de": {
@@ -145,6 +214,29 @@
       "manager": "Verantwortlicher",
       "approved": "Genehmigt",
       "pending": "Ausstehend"
+    },
+    "multiBasket": {
+      "your-event": "Deine Veranstaltung",
+      "ridehorsing": "Reiten",
+      "activity": "Aktivität",
+      "344p": "344 €/p",
+      "catering": "Catering",
+      "palace-garden": "Palastgarten",
+      "80p": "80 €/p",
+      "transport": "Transport",
+      "eurostar": "Eurostar",
+      "120p": "120 €/p",
+      "venue": "Ort",
+      "sunny-resort": "Sonniger Resort",
+      "22500": "22.500 €",
+      "participants": "160 Teilnehmer",
+      "date": "4. Mai - 20. Mai",
+      "book-now": "Jetzt buchen"
+    },
+    "applePay": {
+      "cocktail-bar": "Cocktailbar",
+      "via-naboo": "Via Naboo",
+      "-$20": "-20 €"
     }
   }
 }

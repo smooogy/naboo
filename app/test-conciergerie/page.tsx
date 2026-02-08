@@ -63,11 +63,44 @@ export type ProcurementTextRuns = {
   [K in (typeof PROCUREMENT_TEXT_RUNS)[number]]: string;
 };
 
+// Multi-basket Rive text runs (multi-basket-data.riv).
+const MULTI_BASKET_TEXT_RUNS = [
+  'your-event',
+  'ridehorsing',
+  'activity',
+  '344p',
+  'catering',
+  'palace-garden',
+  '80p',
+  'transport',
+  'eurostar',
+  '120p',
+  'venue',
+  'sunny-resort',
+  '22500',
+  'participants',
+  'date',
+  'book-now',
+] as const;
+
+export type MultiBasketTextRuns = {
+  [K in (typeof MULTI_BASKET_TEXT_RUNS)[number]]: string;
+};
+
+// Apple Pay Rive text runs (apple-pay-data.riv).
+const APPLE_PAY_TEXT_RUNS = ['cocktail-bar', 'via-naboo', '-$20'] as const;
+
+export type ApplePayTextRuns = {
+  [K in (typeof APPLE_PAY_TEXT_RUNS)[number]]: string;
+};
+
 // Rive files.
 const CONCIERGERIE_RIV = '/rive/conciergerie-v2.riv';
 const VENUE_SOURCING_RIV = '/rive/venue-sourcing-data.riv';
 const CENTRALIZED_INVOICES_RIV = '/rive/centralizedinvoices-data.riv';
 const PROCUREMENT_RIV = '/rive/procurement-data.riv';
+const MULTI_BASKET_RIV = '/rive/multi-basket-data.riv';
+const APPLE_PAY_RIV = '/rive/apple-pay-data.riv';
 
 // Artboard that contains the text runs. Must match the artboard name in your .riv.
 const ARTBOARD_NAME = 'main';
@@ -131,6 +164,43 @@ function applyProcurementTextRuns(
 ): boolean {
   try {
     for (const run of PROCUREMENT_TEXT_RUNS) {
+      rive.setTextRunValue(run, texts[run] ?? '');
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Rive file may use display names "Your event" and "Date" instead of "your-event" and "date"
+const MULTI_BASKET_RUN_ALIASES: Partial<Record<(typeof MULTI_BASKET_TEXT_RUNS)[number], string>> = {
+  'your-event': 'Your event',
+  date: 'Date',
+};
+
+function applyMultiBasketTextRuns(
+  rive: { setTextRunValue: (name: string, value: string) => void },
+  texts: MultiBasketTextRuns
+): boolean {
+  try {
+    for (const run of MULTI_BASKET_TEXT_RUNS) {
+      const value = texts[run] ?? '';
+      rive.setTextRunValue(run, value);
+      const alias = MULTI_BASKET_RUN_ALIASES[run];
+      if (alias) rive.setTextRunValue(alias, value);
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function applyApplePayTextRuns(
+  rive: { setTextRunValue: (name: string, value: string) => void },
+  texts: ApplePayTextRuns
+): boolean {
+  try {
+    for (const run of APPLE_PAY_TEXT_RUNS) {
       rive.setTextRunValue(run, texts[run] ?? '');
     }
     return true;
@@ -505,11 +575,178 @@ function ProcurementRive({ texts }: { texts: ProcurementTextRuns }) {
   );
 }
 
+function MultiBasketRive({ texts }: { texts: MultiBasketTextRuns }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRunExistsRef = useRef<boolean | null>(null);
+  const { rive, RiveComponent, setContainerRef } = useRive(
+    {
+      src: MULTI_BASKET_RIV,
+      layout: new Layout({ fit: Fit.Contain, alignment: Alignment.BottomRight }),
+      onRiveReady: (r) => {
+        if (textRunExistsRef.current === false) return;
+        textRunExistsRef.current = applyMultiBasketTextRuns(r, texts);
+        // Always play first available animation so the Rive is visible
+        const entries = r.animationNames ?? [];
+        if (entries.length > 0) r.play(entries[0]);
+      },
+    },
+    { shouldResizeCanvasToContainer: true }
+  );
+
+  const setRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+      setContainerRef(el);
+    },
+    [setContainerRef]
+  );
+
+  useEffect(() => {
+    if (!rive || textRunExistsRef.current !== true) return;
+    if (applyMultiBasketTextRuns(rive, texts)) {
+      const names = rive.animationNames ?? [];
+      if (names.length > 0) {
+        rive.stop();
+        rive.play(names[0]);
+      }
+    } else {
+      textRunExistsRef.current = false;
+    }
+  }, [rive, texts]);
+
+  useEffect(() => {
+    if (!rive) return;
+    const names = rive.animationNames ?? [];
+    if (names.length > 0) rive.play(names[0]);
+  }, [rive]);
+
+  useEffect(() => {
+    if (!rive || !containerRef.current) return;
+    const el = containerRef.current;
+    const handleResize = () => {
+      requestAnimationFrame(() => {
+        if (!rive || !el || el.offsetWidth <= 0 || el.offsetHeight <= 0) return;
+        rive.resizeDrawingSurfaceToCanvas();
+        const names = rive.animationNames ?? [];
+        if (names.length > 0) {
+          rive.stop();
+          rive.play(names[0]);
+        }
+      });
+    };
+    const ro = new ResizeObserver(handleResize);
+    ro.observe(el);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [rive]);
+
+  return (
+    <div
+      ref={setRef}
+      className="relative w-full overflow-hidden block leading-[0] bg-[#F5F6F8] rounded-lg"
+      style={{
+        height: RIVE_HEIGHT,
+        minHeight: RIVE_HEIGHT,
+        minWidth: 1,
+      }}
+    >
+      <RiveComponent />
+    </div>
+  );
+}
+
+function ApplePayRive({ texts }: { texts: ApplePayTextRuns }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRunExistsRef = useRef<boolean | null>(null);
+  const { rive, RiveComponent, setContainerRef } = useRive(
+    {
+      src: APPLE_PAY_RIV,
+      layout: new Layout({ fit: Fit.Contain, alignment: Alignment.BottomRight }),
+      onRiveReady: (r) => {
+        if (textRunExistsRef.current === false) return;
+        textRunExistsRef.current = applyApplePayTextRuns(r, texts);
+        const entries = r.animationNames ?? [];
+        if (entries.length > 0) r.play(entries[0]);
+      },
+    },
+    { shouldResizeCanvasToContainer: true }
+  );
+
+  const setRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+      setContainerRef(el);
+    },
+    [setContainerRef]
+  );
+
+  useEffect(() => {
+    if (!rive || textRunExistsRef.current !== true) return;
+    if (applyApplePayTextRuns(rive, texts)) {
+      const names = rive.animationNames ?? [];
+      if (names.length > 0) {
+        rive.stop();
+        rive.play(names[0]);
+      }
+    } else {
+      textRunExistsRef.current = false;
+    }
+  }, [rive, texts]);
+
+  useEffect(() => {
+    if (!rive) return;
+    const names = rive.animationNames ?? [];
+    if (names.length > 0) rive.play(names[0]);
+  }, [rive]);
+
+  useEffect(() => {
+    if (!rive || !containerRef.current) return;
+    const el = containerRef.current;
+    const handleResize = () => {
+      requestAnimationFrame(() => {
+        if (!rive || !el || el.offsetWidth <= 0 || el.offsetHeight <= 0) return;
+        rive.resizeDrawingSurfaceToCanvas();
+        const names = rive.animationNames ?? [];
+        if (names.length > 0) {
+          rive.stop();
+          rive.play(names[0]);
+        }
+      });
+    };
+    const ro = new ResizeObserver(handleResize);
+    ro.observe(el);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [rive]);
+
+  return (
+    <div
+      ref={setRef}
+      className="relative w-full overflow-hidden block leading-[0] bg-[#F5F6F8] rounded-lg"
+      style={{
+        height: RIVE_HEIGHT,
+        minHeight: RIVE_HEIGHT,
+        minWidth: 1,
+      }}
+    >
+      <RiveComponent />
+    </div>
+  );
+}
+
 type TranslationsByLanguage = {
   conciergerie: ConciergerieTextRuns;
   venueSourcing: VenueSourcingTextRuns;
   centralizedInvoices: CentralizedInvoicesTextRuns;
   procurement: ProcurementTextRuns;
+  multiBasket: MultiBasketTextRuns;
+  applePay: ApplePayTextRuns;
 };
 
 const translations = translationsData as Record<Language, TranslationsByLanguage>;
@@ -557,9 +794,17 @@ export default function TestConciergeriePage() {
           <h2 className="text-lg font-semibold text-[#212721] mb-3">Centralized invoices</h2>
           <CentralizedInvoicesRive texts={texts.centralizedInvoices} />
         </section>
-        <section>
+        <section className="mb-12">
           <h2 className="text-lg font-semibold text-[#212721] mb-3">Procurement</h2>
           <ProcurementRive texts={texts.procurement} />
+        </section>
+        <section className="mb-12">
+          <h2 className="text-lg font-semibold text-[#212721] mb-3">Multi-basket</h2>
+          <MultiBasketRive texts={texts.multiBasket} />
+        </section>
+        <section>
+          <h2 className="text-lg font-semibold text-[#212721] mb-3">Apple Pay</h2>
+          <ApplePayRive texts={texts.applePay} />
         </section>
       </main>
     </div>
